@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <group android:id="@+id/menu_item"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_main_fragment"
+            android:icon="@drawable/ic_arrow_forward_black_24dp"
+            android:title="Записи" />
+        <item
+            android:id="@+id/nav_setting_fragment"
+            android:icon="@drawable/ic_arrow_forward_black_24dp"
+            android:title="Настройки" />
+        <item
+            android:id="@+id/nav_library_fragment"
+            android:icon="@drawable/ic_arrow_forward_black_24dp"
+            android:title="Библиотека" />
+        <item
+            android:id="@+id/nav_analyze_fragment"
+            android:icon="@drawable/ic_arrow_forward_black_24dp"
+            android:title="Анализ по словам" />
+        <item
+            android:id="@+id/nav_analyze_zap_fragment"
+            android:icon="@drawable/ic_arrow_forward_black_24dp"
+            android:title="Анализ по записям" />
+    </group>
+
+</menu>
