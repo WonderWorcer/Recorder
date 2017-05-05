@@ -1,6 +1,7 @@
 package com.recoder.recoder.adapters;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.recoder.recoder.App;
+import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.R;
 import com.recoder.recoder.models.record;
 
@@ -27,7 +30,8 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
 
     private ArrayList<record> mDataset;
     private Context context;
-
+    DBHelper dbHelper = new DBHelper(App.getContext());
+    SQLiteDatabase db = dbHelper.getWritableDatabase();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -35,6 +39,7 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
         public ImageView vhod, ishod;
         public LinearLayout ll;
         public ImageButton ib;
+
 
         public ViewHolder(View v) {
             super(v);
@@ -114,9 +119,11 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
                     case R.id.edit:
                         Toast.makeText(context, "Изменить элемент " + Integer.toString(position) , Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.delete:
+                    case R.id.delete: {
+                        db.delete(dbHelper.TABLE_RECORDS, null, null);
                         Toast.makeText(context, "Удалить элемент " + Integer.toString(position) , Toast.LENGTH_SHORT).show();
                         break;
+                    }
                     default:
                         return false;
                 }

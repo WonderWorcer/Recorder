@@ -1,8 +1,8 @@
 package com.recoder.recoder;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.media.MediaRecorder;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 
@@ -20,8 +19,6 @@ import com.recoder.recoder.fragments.fragmentRecords;
 import com.recoder.recoder.fragments.fragmentSettings;
 import com.recoder.recoder.fragments.fragmentWords;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawer;
     public NavigationView nvDrawer;
-    Context context = this;
+
     CallRecord callRecord;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         callRecord.startCallRecordService();
         callRecord.startCallReceiver();
 
-
+        App.setContext(this);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);

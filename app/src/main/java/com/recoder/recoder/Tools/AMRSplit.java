@@ -28,10 +28,12 @@ public class AMRSplit {
     public int frameSize;
     public long chunkSize = (long) (6000);
     Context context;
+    DBHelper dbHelper;
     public AMRSplit(Context context){
-    this.context = context;
+        this.context = context;
+        dbHelper = new DBHelper(context);
 }
-    DBHelper dbHelper = new DBHelper(context);
+
     public void initv1() throws IOException {
 
         String ss = "Record1.amr";
@@ -43,12 +45,16 @@ public class AMRSplit {
         }
     }
 
-    public void split(String filename) throws FileNotFoundException, IOException {
+    public void split(File filename) throws FileNotFoundException, IOException {
 
         // open the file
-        BufferedInputStream in = new BufferedInputStream(new FileInputStream(filename));
+        final File parentFolder = new File(filename.getAbsolutePath()
+                .substring(0, filename.getAbsolutePath().lastIndexOf(
+                        File.separator)));
+        String path = parentFolder.getAbsolutePath();
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(filename.getAbsolutePath()));
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        File inputFile = new File(filename);
+        File inputFile = new File(filename.getAbsolutePath());
         try {
             FileInputStream fis = new FileInputStream(inputFile);
 
@@ -74,7 +80,8 @@ public class AMRSplit {
 
         }
         // get the file length
-        File f = new File(filename);
+        File f = new File(filename.getAbsolutePath());
+        String splitString[] = filename.getName().split("_");
         long fileSize = f.length();
         byte fileContent[] = new byte[7];
         fileContent[0] = 35;
@@ -88,7 +95,7 @@ public class AMRSplit {
 
         for (subfile = 0; subfile < fileSize / chunkSize; subfile++) {
             // open the output file
-            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("part"+subfile + filename));
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(path + "/" + "part" + subfile + filename.getName()));
 
             if (subfile > 0) {
                 for (int i = 0; i < 6; i++) {
@@ -113,11 +120,11 @@ public class AMRSplit {
             out.close();
 
             ContentValues newValues = new ContentValues();
-            newValues.put(dbHelper.RECORD_PATH,"part"+subfile + filename);
-            newValues.put(dbHelper.PHONE_NUMBER,filename);
-            newValues.put(dbHelper.SEED,filename);
+            newValues.put(dbHelper.RECORD_PATH, path + "/" + "part" + subfile + filename.getName());
+            newValues.put(dbHelper.PHONE_NUMBER, splitString[2]);
+            newValues.put(dbHelper.SEED, splitString[3]);
             newValues.put(dbHelper.CALLTIME,"1:00");
-            newValues.put(dbHelper.CALLDATE,filename);
+            newValues.put(dbHelper.CALLDATE, splitString[1]);
             newValues.put(dbHelper.RECORD_STATUS,"Not Checked");
             newValues.put(dbHelper.DRAG_FILTER,"0");
             newValues.put(dbHelper.EXTREMIST_FILTER,"0");
@@ -131,7 +138,8 @@ public class AMRSplit {
         // loop for the last chunk (which may be smaller than the chunk size)
         if (fileSize != chunkSize * (subfile - 1)) {
             // open the output file
-            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("part"+subfile + filename));
+            String sss = path + "/" + "part" + subfile + filename.getName();
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(path + "/" + "part" + subfile + filename.getName()));
 
             // write the rest of the file
             int b;
@@ -147,11 +155,11 @@ public class AMRSplit {
             // close the file
             out.close();
             ContentValues newValues = new ContentValues();
-            newValues.put(dbHelper.RECORD_PATH,"part"+subfile + filename);
-            newValues.put(dbHelper.PHONE_NUMBER,filename);
-            newValues.put(dbHelper.SEED,filename);
-            newValues.put(dbHelper.CALLTIME,"1:00");
-            newValues.put(dbHelper.CALLDATE,filename);
+            newValues.put(dbHelper.RECORD_PATH, path + "/" + "part" + subfile + filename.getName());
+            newValues.put(dbHelper.PHONE_NUMBER, splitString[2]);
+            newValues.put(dbHelper.SEED, splitString[3]);
+            newValues.put(dbHelper.CALLTIME, "<1мин");
+            newValues.put(dbHelper.CALLDATE, splitString[1]);
             newValues.put(dbHelper.RECORD_STATUS,"Not Checked");
             newValues.put(dbHelper.DRAG_FILTER,"0");
             newValues.put(dbHelper.EXTREMIST_FILTER,"0");

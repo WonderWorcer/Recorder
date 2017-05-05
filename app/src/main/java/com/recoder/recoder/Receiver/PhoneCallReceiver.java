@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
 
-
 import java.util.Date;
 
 
@@ -123,7 +122,7 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
             //No change, debounce extras
             return;
         }
-
+        savedNumber = number;
         switch (state) {
             case TelephonyManager.CALL_STATE_RINGING:
 

@@ -4,12 +4,13 @@ import android.content.Context;
 import android.media.MediaRecorder;
 import android.util.Log;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
 import com.recoder.recoder.CallRecord;
 import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.Tools.AMRSplit;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by WonderWorcer on 8.12.2016.
@@ -50,14 +51,13 @@ public class CallRecordReceiver extends PhoneCallReceiver {
      */
     @Override
     protected void onIncomingCallReceived(Context ctx,  String number, Date start) {
-
+        //startRecord(ctx, "incoming", number);
     }
 
     /**
      * Вызывается при приеме входящего вызова с последующим стартом записи разговора, если такой режим включен
      *
      * @param ctx        контект приложения
-
      * @param number     номер телефона
      * @param start      время принятия вызова
      */
@@ -70,7 +70,6 @@ public class CallRecordReceiver extends PhoneCallReceiver {
      * Вызывается после окончания входящего вызова, необходим для остановки записи.
      *
      * @param ctx        контект приложения
-
      * @param number     номер телефона
      * @param start      время принятия вызова
      * @param end        время окончания вызова
@@ -83,14 +82,6 @@ public class CallRecordReceiver extends PhoneCallReceiver {
             recorder.stop();
             recorder.reset();
             recorder.release();
-            AMRSplit amrSplit = new AMRSplit(ctx);
-            try {
-                amrSplit.split(audiofile.getName());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
 
             isRecordStarted = false;
             onRecordingFinished(ctx, audiofile);
@@ -126,12 +117,7 @@ public class CallRecordReceiver extends PhoneCallReceiver {
             recorder.stop();
             recorder.reset();
             recorder.release();
-            AMRSplit amrSplit = new AMRSplit(ctx);
-            try {
-                amrSplit.split(audiofile.getName());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
             isRecordStarted = false;
             onRecordingFinished(ctx, audiofile);
             Log.i(TAG, "record stop");
@@ -143,7 +129,6 @@ public class CallRecordReceiver extends PhoneCallReceiver {
      * На данный момент не работает
      *
      * @param ctx        контект приложения
-
      * @param number     номер телефона
      * @param start      время принятия вызова
      */
@@ -157,6 +142,13 @@ public class CallRecordReceiver extends PhoneCallReceiver {
     }
 
     protected void onRecordingFinished(Context context,  File audioFile) {
+        AMRSplit amrSplit = new AMRSplit(context);
+        try {
+            amrSplit.split(audiofile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
