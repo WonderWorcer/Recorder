@@ -1,7 +1,7 @@
 package com.recoder.recoder.models;
 
 /**
- * Created by JoshRonaldMine on 30.04.2017.
+ * Created by WonderWorcer on 29.04.2017.
  */
 
 public class words {

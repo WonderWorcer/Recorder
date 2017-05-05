@@ -13,9 +13,13 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * Created by WonderWorcer on 8.12.2016.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 0.5
+ * \date 7 марта 2017 года
+ *
+ * Класс, необходим для обработки всех возможных событий при регистрации вызовов
  */
-
 public class CallRecordReceiver extends PhoneCallReceiver {
 
 
@@ -153,8 +157,10 @@ public class CallRecordReceiver extends PhoneCallReceiver {
 
 
     /**
+     * Необходим для создания файла, в который будет записан разговор
+     * и для непосредственного старта записи
      * @param context     контекcт приложения
-     * @param seed
+     * @param seed переменная, содержащая информацию о вызове(Исходящий, Входящий)
      * @param phoneNumber номер телефона
      */
     private void startRecord(Context context, String seed, String phoneNumber) {

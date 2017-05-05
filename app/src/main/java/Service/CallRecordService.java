@@ -7,13 +7,17 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.recoder.recoder.CallRecord;
-
 import com.recoder.recoder.Helper.PrefsHelper;
 
 /**
- * Created by Роман on 05.05.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 0.5
+ * \date 7 марта 2017 года
+ *
+ * Класс, реализующий сервис записи разговора
+ * На данный момент не работает
  */
-
 public class CallRecordService extends Service {
 
     private static final String TAG = CallRecordService.class.getSimpleName();

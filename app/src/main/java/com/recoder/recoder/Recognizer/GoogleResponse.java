@@ -4,23 +4,23 @@ package com.recoder.recoder.Recognizer;
 import java.util.ArrayList;
 import java.util.List;
 
-/******************************************************************************
- * Class that holds the response and confidence of a Google recognizer request
+/*************************************************************************************
+ * Класс, который содержит ответ и приватность от запроса распознования речи Google.
  *
- * @author Luke Kuza, Duncan Jauncey, Aaron Gokaslan
- ******************************************************************************/
+ * @author WonderWorcer
+ ************************************************************************************/
 public class GoogleResponse {
     /**
-     * Variable that holds the response
+     * Переменная, содержащая ответ запроса
      */
     private String response;
     /**
-     * Variable that holds the confidence score
+     * Переменная, содержащая доверительный балл
      */
     private String confidence;
 
     /**
-     * List that holds other possible responses for this request.
+     * Список, содержащий другие ответы от запроса
      */
     private List<String> otherPossibleResponses = new ArrayList<String>(20);
 
@@ -28,7 +28,7 @@ public class GoogleResponse {
     private boolean finalResponse = true;
 
     /**
-     * Constructor
+     * Констуктор
      */
     public GoogleResponse() {
 
@@ -36,9 +36,9 @@ public class GoogleResponse {
 
 
     /**
-     * Gets the response text of what was said in the submitted Audio to Google
+     * Получает текст, полученый из аудио-файла через Google
      *
-     * @return String representation of what was said
+     * @return Строковое представление аудиофайла
      */
     public String getResponse() {
         return response;
@@ -54,36 +54,36 @@ public class GoogleResponse {
     }
 
     /**
-     * Gets the confidence score for the specific request
+     * Получает доверительную оценку для конкретного запроса.
      *
-     * @return The confidence score, ex .922343324323
+     * @return Показатель достоверности, например. 922343324323
      */
     public String getConfidence() {
         return confidence;
     }
 
     /**
-     * Set the confidence score for this request
+     * Установливает доверительный балл для этого запроса
      *
-     * @param confidence The confidence score
+     * @param confidence Показатель достоверности
      */
     protected void setConfidence(String confidence) {
         this.confidence = confidence;
     }
 
     /**
-     * Get other possible responses for this request.
+     * Получает список, содержащий другие ответы от запроса
      *
-     * @return other possible responses
+     * @return Список других ответов
      */
     public List<String> getOtherPossibleResponses() {
         return otherPossibleResponses;
     }
 
     /**
-     * Gets all returned responses for this request
+     * Получает все возвращенные ответы для этого запроса
      *
-     * @return All returned responses
+     * @return Список всех ответов
      */
     public List<String> getAllPossibleResponses() {
         List<String> tmp = otherPossibleResponses;

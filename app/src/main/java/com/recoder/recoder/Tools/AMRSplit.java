@@ -15,42 +15,48 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by Роман on 04.05.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 0.5
+ * \date 5 марта 2017
+ * <p>
+ * Класс, реализующий разделение amr файла на части
+ * длительностью до 1 минуты
  */
 
 public class AMRSplit {
 
-
-    public static final long floppySize = (long) (1.4 * 1024 * 1024);
-    /**
-     * the maximum size of each file "chunk" generated, in bytes
-     */
-    public int frameSize;
-    public long chunkSize = (long) (6000);
+    public int frameSize; ///< Размер одного кадра
+    public long chunkSize = (long) (6000); ///< Максимальный размер каждого «куска» файла, сгенерированного в байтах
     Context context;
     DBHelper dbHelper;
-    public AMRSplit(Context context){
+
+    /**
+     * Конструктор
+     *
+     * @param context текущий контекст приложения
+     */
+    public AMRSplit(Context context) {
         this.context = context;
         dbHelper = new DBHelper(context);
-}
-
-    public void initv1() throws IOException {
-
-        String ss = "Record1.amr";
-
-        try {
-            //split(ss);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
+    /**
+     * Разделяет amr запись на фрагменты длительностью до
+     * 1 минуты и записывает все необходиммые данные о записе
+     * в базу данных
+     *
+     * @param filename amr - файл
+     * @throws FileNotFoundException Исключение при отсутствии файла
+     * @throws IOException
+     */
     public void split(File filename) throws FileNotFoundException, IOException {
 
-        // open the file
+        // Необходимо для получения папки, в которой лежит файл
         final File parentFolder = new File(filename.getAbsolutePath()
                 .substring(0, filename.getAbsolutePath().lastIndexOf(
                         File.separator)));
+
         String path = parentFolder.getAbsolutePath();
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(filename.getAbsolutePath()));
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -58,30 +64,46 @@ public class AMRSplit {
         try {
             FileInputStream fis = new FileInputStream(inputFile);
 
-            byte fileContent[]= new byte[(int) inputFile.length()];
+            byte fileContent[] = new byte[(int) inputFile.length()];
 
-            fis.read(fileContent); // Reads the file content as byte.
+            fis.read(fileContent); // Чтение файла по-байтово
             fis.close();
-            switch ((fileContent[7]>>3)& 0x0F) {
-                case 0:frameSize = 13;break;
-                case 1:frameSize = 14;break;
-                case 2:frameSize = 16;break;
-                case 3:frameSize = 18;break;
-                case 4:frameSize = 20;break;
-                case 5:frameSize = 21;break;
-                case 6:frameSize = 27;break;
-                case 7:frameSize = 32;break;
+            // Вычисление размера кадра
+            switch ((fileContent[7] >> 3) & 0x0F) {
+                case 0:
+                    frameSize = 13;
+                    break;
+                case 1:
+                    frameSize = 14;
+                    break;
+                case 2:
+                    frameSize = 16;
+                    break;
+                case 3:
+                    frameSize = 18;
+                    break;
+                case 4:
+                    frameSize = 20;
+                    break;
+                case 5:
+                    frameSize = 21;
+                    break;
+                case 6:
+                    frameSize = 27;
+                    break;
+                case 7:
+                    frameSize = 32;
+                    break;
             }
             chunkSize *= frameSize;
-            }
-            catch (Exception ex) {
-            // TODO Auto-generated catch block
+        } catch (Exception ex) {
             ex.printStackTrace();
-
         }
-        // get the file length
+
         File f = new File(filename.getAbsolutePath());
+        //Расшипление строки, в которой содержится вся необходимая информация о записи
         String splitString[] = filename.getName().split("_");
+        // Получение длины файла
         long fileSize = f.length();
         byte fileContent[] = new byte[7];
         fileContent[0] = 35;
@@ -90,11 +112,11 @@ public class AMRSplit {
         fileContent[3] = 77;
         fileContent[4] = 82;
         fileContent[5] = 10;
-        // loop for each full chunk
+        //Цикл для каждого полного фрагмента
         int subfile;
 
         for (subfile = 0; subfile < fileSize / chunkSize; subfile++) {
-            // open the output file
+            // Открываем выходной файл
             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(path + "/" + "part" + subfile + filename.getName()));
 
             if (subfile > 0) {
@@ -105,43 +127,42 @@ public class AMRSplit {
 
             if (subfile == 0) {
                 for (int currentByte = 0; currentByte < chunkSize + 6; currentByte++) {
-                    // load one byte from the input file and write it to the output file
+                    //Загружаем один байт из входного файла и записываем его в выходной файл
                     out.write(in.read());
                 }
-            } else // write the right amount of bytes
+            } else
             {
                 for (int currentByte = 0; currentByte < chunkSize; currentByte++) {
-                    // load one byte from the input file and write it to the output file
+                    // Загрузить один байт из входного файла и записать его в выходной файл
                     out.write(in.read());
                 }
             }
 
-            // close the file
+            // закрываем файл
             out.close();
-
+            //Записываем запись в базу данных
             ContentValues newValues = new ContentValues();
             newValues.put(dbHelper.RECORD_PATH, path + "/" + "part" + subfile + filename.getName());
             newValues.put(dbHelper.PHONE_NUMBER, splitString[2]);
             newValues.put(dbHelper.SEED, splitString[3]);
-            newValues.put(dbHelper.CALLTIME,"1:00");
+            newValues.put(dbHelper.CALLTIME, "1:00");
             newValues.put(dbHelper.CALLDATE, splitString[1]);
-            newValues.put(dbHelper.RECORD_STATUS,"Not Checked");
-            newValues.put(dbHelper.DRAG_FILTER,"0");
-            newValues.put(dbHelper.EXTREMIST_FILTER,"0");
-            newValues.put(dbHelper.THEFT_FILTER,"0");
-            newValues.put(dbHelper.PROFANITY_FILTER,"0");
-            newValues.put(dbHelper.STATE_SECRET_FILTER,"0");
-            newValues.put(dbHelper.BANK_SECRET_FILTER,"0");
-            db.insert(dbHelper.TABLE_RECORDS,null,newValues);
+            newValues.put(dbHelper.RECORD_STATUS, "Not Checked");
+            newValues.put(dbHelper.DRAG_FILTER, "0");
+            newValues.put(dbHelper.EXTREMIST_FILTER, "0");
+            newValues.put(dbHelper.THEFT_FILTER, "0");
+            newValues.put(dbHelper.PROFANITY_FILTER, "0");
+            newValues.put(dbHelper.STATE_SECRET_FILTER, "0");
+            newValues.put(dbHelper.BANK_SECRET_FILTER, "0");
+            db.insert(dbHelper.TABLE_RECORDS, null, newValues);
         }
 
-        // loop for the last chunk (which may be smaller than the chunk size)
+        // Цикл для последнего фрагмента (который может быть меньше размера фрагмента)
         if (fileSize != chunkSize * (subfile - 1)) {
-            // open the output file
-            String sss = path + "/" + "part" + subfile + filename.getName();
+            // Открываем выходной файл
             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(path + "/" + "part" + subfile + filename.getName()));
 
-            // write the rest of the file
+            // пишем остальную часть файла
             int b;
             if (subfile > 0) {
                 for (int i = 0; i < 6; i++) {
@@ -152,25 +173,26 @@ public class AMRSplit {
                 out.write(b);
             }
 
-            // close the file
+            // Закрываем файл
             out.close();
+            //Записываем запись в базу данных
             ContentValues newValues = new ContentValues();
             newValues.put(dbHelper.RECORD_PATH, path + "/" + "part" + subfile + filename.getName());
             newValues.put(dbHelper.PHONE_NUMBER, splitString[2]);
             newValues.put(dbHelper.SEED, splitString[3]);
             newValues.put(dbHelper.CALLTIME, "<1мин");
             newValues.put(dbHelper.CALLDATE, splitString[1]);
-            newValues.put(dbHelper.RECORD_STATUS,"Not Checked");
-            newValues.put(dbHelper.DRAG_FILTER,"0");
-            newValues.put(dbHelper.EXTREMIST_FILTER,"0");
-            newValues.put(dbHelper.THEFT_FILTER,"0");
-            newValues.put(dbHelper.PROFANITY_FILTER,"0");
-            newValues.put(dbHelper.STATE_SECRET_FILTER,"0");
-            newValues.put(dbHelper.BANK_SECRET_FILTER,"0");
-            db.insert(dbHelper.TABLE_RECORDS,null,newValues);
+            newValues.put(dbHelper.RECORD_STATUS, "Not Checked");
+            newValues.put(dbHelper.DRAG_FILTER, "0");
+            newValues.put(dbHelper.EXTREMIST_FILTER, "0");
+            newValues.put(dbHelper.THEFT_FILTER, "0");
+            newValues.put(dbHelper.PROFANITY_FILTER, "0");
+            newValues.put(dbHelper.STATE_SECRET_FILTER, "0");
+            newValues.put(dbHelper.BANK_SECRET_FILTER, "0");
+            db.insert(dbHelper.TABLE_RECORDS, null, newValues);
         }
 
-        // close the file
+        // Закрываем файл
         in.close();
     }
 

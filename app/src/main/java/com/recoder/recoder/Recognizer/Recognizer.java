@@ -1,23 +1,30 @@
 package com.recoder.recoder.Recognizer;
 
-import android.os.StrictMode;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-
-import org.json.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**********************************************************************
- * Класс, который отправляет аудио FLAC и извлекает распознанный текст
+ * Класс, который отправляет amr-файл и извлекает распознанный текст
  *
  * @author RomanAksenov
  *********************************************************************/
 public class Recognizer implements IRecognizer {
+    //tells Google to auto-detect the language
     public enum Languages {
-        AUTO_DETECT("auto"),//tells Google to auto-detect the language
+        AUTO_DETECT("auto"),
         ARABIC_JORDAN("ar-JO"),
         ARABIC_LEBANON("ar-LB"),
         ARABIC_QATAR("ar-QA"),
@@ -95,12 +102,12 @@ public class Recognizer implements IRecognizer {
         //TODO Clean Up JavaDoc for Overloaded Methods using @link
 
         /**
-         * Stores the LanguageCode
+         * Переменная для сохранения языкового кода
          */
         private final String languageCode;
 
         /**
-         * Constructor
+         * Констуктор
          */
         private Languages(final String languageCode) {
             this.languageCode = languageCode;
@@ -123,10 +130,10 @@ public class Recognizer implements IRecognizer {
     private String apikey = null;
 
     /**
-     * Constructor
+     * Констуктор
      *
-     * @param language
-     * @param apikey
+     * @param language  язык запроса
+     * @param apikey  уникальный ключ GoogleRecognition
      */
     public Recognizer(String language, String apikey) {
         this.language = language;
@@ -134,10 +141,10 @@ public class Recognizer implements IRecognizer {
     }
 
     /**
-     * Constructor
+     * Констуктор
      *
      * @param language Класс Languages для языка, который вы хотите назначить
-     * @param apikey
+     * @param apikey  уникальный ключ GoogleRecognition
      */
     public Recognizer(Languages language, String apikey) {
         this.language = language.languageCode;
@@ -145,10 +152,10 @@ public class Recognizer implements IRecognizer {
     }
 
     /**
-     * Constructor
+     * Констуктор
      *
-     * @param profanityFilter
-     * @param apikey
+     * @param profanityFilter флаг включения фильтра нецензурной речи
+     * @param apikey - уникальный ключ GoogleRecognition
      */
     public Recognizer(boolean profanityFilter, String apikey) {
         this.profanityFilter = profanityFilter;
@@ -156,11 +163,11 @@ public class Recognizer implements IRecognizer {
     }
 
     /**
-     * Constructor
+     * онстуктор
      *
-     * @param language
-     * @param profanityFilter
-     * @param apikey
+     * @param language язык запроса
+     * @param profanityFilter флаг включения фильтра нецензурной речи
+     * @param apikey  уникальный ключ GoogleRecognition
      */
     public Recognizer(String language, boolean profanityFilter, String apikey) {
         this.language = language;
@@ -171,9 +178,9 @@ public class Recognizer implements IRecognizer {
     /**
      * Constructor
      *
-     * @param language
-     * @param profanityFilter
-     * @param apikey
+     * @param language Класс Languages для языка, который вы хотите назначить
+     * @param profanityFilter флаг включения фильтра нецензурной речи
+     * @param apikey уникальный ключ GoogleRecognition
      */
     public Recognizer(Languages language, boolean profanityFilter, String apikey) {
         this.language = language.languageCode;
@@ -186,7 +193,7 @@ public class Recognizer implements IRecognizer {
      *      * Установка этого значения null приведет к тому, что Google будет использовать собственное распознавание языка.
      *      * По умолчанию значение равно нулю.
      *
-     * @param language
+     * @param language Класс Languages для языка, который вы хотите назначить
      */
     public void setLanguage(Languages language) {
         this.language = language.languageCode;
@@ -196,7 +203,7 @@ public class Recognizer implements IRecognizer {
      * Код языка.  Этот код языка должен соответствовать языку распознаваемой речи. ex. en-US ru-RU
      * По умолчанию значение равно нулю.
      *
-     * @param language - код языка.
+     * @param language  код языка.
      */
     public void setLanguage(String language) {
         this.language = language;
@@ -206,7 +213,7 @@ public class Recognizer implements IRecognizer {
      * Возвращает состояние работы фильтра не нормативной лексики
      * Который включает и выключает фильтрацию ненормативной лексики (Включен по умолчанию).
      *
-     * @return profanityFilter
+     * @return profanityFilter флаг включения фильтра нецензурной речи
      */
     public boolean getProfanityFilter() {
         return profanityFilter;
@@ -230,19 +237,38 @@ public class Recognizer implements IRecognizer {
         this.apikey = apikey;
     }
 
-    /*
-    *refactoring
-    */
+
+    /**
+     * Google запрос для отправки на сервер Google Recognition amr-файла
+     *
+     * @param amrFile - amr файл
+     * @return Возвращает ответ на запрос
+     * @throws IOException
+     */
     public GoogleResponse getRecognizedDataForAmr(File amrFile) throws IOException {
         return getRecognizedDataForAmr(amrFile, 1);
     }
 
-
+    /**
+     * Google запрос для отправки на сервер Google Recognition amr-файла
+     * @param amrFile  amr файл
+     * @param maxResults количество ответов на Google запрос
+     * @return Возвращает ответ на запрос
+     * @throws IOException
+     */
     public GoogleResponse getRecognizedDataForAmr(File amrFile, int maxResults) throws IOException {
         GoogleResponse googleResponse = getRecognizedDataForAmr(amrFile, maxResults, 8000);
         return googleResponse;
     }
 
+    /**
+     * Google запрос для отправки на сервер Google Recognition amr-файла
+     * @param amrFile amr файл
+     * @param maxResults количество ответов на Google запрос
+     * @param sampleRate частота дискретизации
+     * @return Возвращает ответ на запрос
+     * @throws IOException
+     */
     public GoogleResponse getRecognizedDataForAmr(File amrFile, int maxResults, int sampleRate) throws IOException {
         String[] response = rawRequest(amrFile, maxResults, sampleRate);
         GoogleResponse googleResponse = new GoogleResponse();
@@ -250,6 +276,11 @@ public class Recognizer implements IRecognizer {
         return googleResponse;
     }
 
+    /**
+     *
+     * @param rawResponse
+     * @param googleResponse
+     */
     private void parseResponse(String[] rawResponse, GoogleResponse googleResponse) {
 
         try {
@@ -279,6 +310,14 @@ public class Recognizer implements IRecognizer {
         }
     }
 
+    /**
+     * Функция которая получает ответ гугл запроса
+     * @param inputFile amr-файл для запроса
+     * @param maxResults количество ответов от Gooogle
+     * @param sampleRate частота дискретизации
+     * @return результат запроса
+     * @throws IOException
+     */
     private String[] rawRequest(File inputFile, int maxResults, int sampleRate) throws IOException {
         URL url;
         URLConnection urlConn;

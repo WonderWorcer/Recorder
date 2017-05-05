@@ -8,15 +8,18 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.recoder.recoder.Helper.PrefsHelper;
-
 import com.recoder.recoder.Receiver.CallRecordReceiver;
+
 import Service.CallRecordService;
 
-
 /**
- * Created by WonderWorcer on 8.12.2016.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 0.5
+ * \date 7 марта 2017 года
+ * <p>
+ * Класс, реализующий регистрацию звонков
  */
-
 
 public class CallRecord {
 

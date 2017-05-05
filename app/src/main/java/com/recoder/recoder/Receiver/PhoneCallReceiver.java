@@ -9,13 +9,19 @@ import java.util.Date;
 
 
 /**
- * Created by WonderWorcer on 8.12.2016.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 0.5
+ * \date 7 марта 2017 года
+ *
+ * Абстрактный класс, необходим для обработки всех
+ * возможных событий при регистрации вызовов
+ * Так же обрабатывает всевозможное изменение статуса вызова
  */
-
 
 public abstract class PhoneCallReceiver extends BroadcastReceiver {
 
-    //The receiver will be recreated whenever android feels like it.  We need a static variable to remember data between instantiations
+
 
     private static int lastState = TelephonyManager.CALL_STATE_IDLE;
     private static Date callStartTime;
@@ -23,7 +29,9 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
     private static String savedNumber;  //because the passed incoming is only valid in ringing
 
     /**
-     * @param context
+     * Событие, которое вызывается intent-ом при принятии вызова
+     * или звонке
+     * @param context Текущий контекст приложения
      * @param intent
      */
     @Override
@@ -58,64 +66,69 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
     }
 
     /**
-     * @param ctx
-
-     * @param number
-     * @param start
+     * Вызывается при принятии входящего вызова
+     * На данный момент не работает
+     * @param ctx контект приложения
+     * @param number номер телефона
+     * @param start время принятия вызова
+     * На данный момент не работает
      */
-    //Derived classes should override these to respond to specific events of interest
     protected abstract void onIncomingCallReceived(Context ctx,  String number, Date start);
 
     /**
-     * @param ctx
-
-     * @param number
-     * @param start
+     * Вызывается при приеме входящего вызова с последующим стартом записи разговора, если такой режим включен
+     * @param ctx контект приложения
+     * @param number номер телефона
+     * @param start время принятия вызова
      */
     protected abstract void onIncomingCallAnswered(Context ctx,  String number, Date start);
 
     /**
-     * @param ctx
-
-     * @param number
-     * @param start
-     * @param end
+     * Вызывается после окончания входящего вызова, необходим для остановки записи.
+     * @param ctx контект приложения
+     * @param number номер телефона
+     * @param start время принятия вызова
+     * @param end время окончания вызова
      */
     protected abstract void onIncomingCallEnded(Context ctx,  String number, Date start, Date end);
 
     /**
-     * @param ctx
-
-     * @param number
-     * @param start
+     * Вызывается при приеме исходящего вызова с последующим стартом записи разговора, если такой режим включен
+     * @param ctx контект приложения
+     * @param number номер телефона
+     * @param start время принятия вызова
      */
     protected abstract void onOutgoingCallStarted(Context ctx,  String number, Date start);
 
     /**
-     * @param ctx
-     * @param number
-     * @param start
-     * @param end
+     * Вызывается после окончания исходящего вызова, необходим для остановки записи.
+     * @param ctx контект приложения
+     * @param number номер телефона
+     * @param start время принятия вызова
+     * @param end время окончания вызова
      */
     protected abstract void onOutgoingCallEnded(Context ctx,  String number, Date start, Date end);
 
     /**
-     * @param ctx
-     * @param number
-     * @param start
+     * Возникает при пропуске звонка
+     * На данный момент не работает
+     * @param ctx контект приложения
+     * @param number номер телефона
+     * @param start время принятия вызова
      */
     protected abstract void onMissedCall(Context ctx,  String number, Date start);
 
 
     /**
-     * @param context
-     * @param state
-     * @param number
+     * Вызывается при смене статуса звонка
+     * @param context текущий контекст приложения
+     * @param state статус звонка
+     *  0 - конец звонка (CALL_STATE_IDLE)
+     *  1 - звонок (CALL_STATE_RINGING)
+     *  2 - звонок на удержании (CALL_STATE_OFFHOOK)
+     *  Остальные варианты статуса в программе не присутствуют
+     * @param number номер телефона
      */
-    //Deals with actual events
-
-    //Incoming call-  goes from IDLE to RINGING when it rings, to OFFHOOK when it's answered, to IDLE when its hung up
-    //Outgoing call-  goes from IDLE to OFFHOOK when it dials out, to IDLE when hung up
     public void onCallStateChanged(Context context, int state, String number) {
 
         if (lastState == state) {
