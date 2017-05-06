@@ -120,7 +120,8 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
                         Toast.makeText(context, "Изменить элемент " + Integer.toString(position) , Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.delete: {
-                        db.delete(dbHelper.TABLE_RECORDS, null, null);
+
+                        db.delete(dbHelper.TABLE_RECORDS, "_id = " + mDataset.get(position).get_id(), null);
                         Toast.makeText(context, "Удалить элемент " + Integer.toString(position) , Toast.LENGTH_SHORT).show();
                         break;
                     }

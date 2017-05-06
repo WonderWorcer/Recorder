@@ -13,6 +13,7 @@ public class FillBase {
     public void FillExtremistWords(Context context) {
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
+        database.delete(dbHelper.TABLE_EXTREMIST_WORDS, null, null);
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.KEY_WORD, "Бомба");
         contentValues.put(dbHelper.VALUE_WORD, 5);
@@ -22,6 +23,7 @@ public class FillBase {
     public void FillDragWords(Context context) {
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
+        database.delete(dbHelper.TABLE_DRAG_WORDS, null, null);
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.KEY_WORD, "Герыч");
         contentValues.put(dbHelper.VALUE_WORD, 5);
@@ -31,6 +33,7 @@ public class FillBase {
     public void FillStateSecretWords(Context context) {
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
+        database.delete(dbHelper.TABLE_STATE_SECRET_WORDS, null, null);
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.KEY_WORD, "На на на");
         contentValues.put(dbHelper.VALUE_WORD, 5);
@@ -40,6 +43,7 @@ public class FillBase {
     public void FillTheftWords(Context context) {
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
+        database.delete(dbHelper.TABLE_THEFT_WORDS, null, null);
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.KEY_WORD, "Своровать");
         contentValues.put(dbHelper.VALUE_WORD, 5);
@@ -49,6 +53,7 @@ public class FillBase {
     public void FillProfanityWords(Context context) {
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
+        database.delete(dbHelper.TABLE_PROFANITY_WORDS, null, null);
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.KEY_WORD, "танки на");
         contentValues.put(dbHelper.VALUE_WORD, 5);
@@ -58,6 +63,7 @@ public class FillBase {
     public void FillBankSecretWords(Context context) {
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
+        database.delete(dbHelper.TABLE_BANK_SECRET_WORDS, null, null);
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.KEY_WORD, "украсть деньги");
         contentValues.put(dbHelper.VALUE_WORD, 5);

@@ -63,19 +63,20 @@ public class fragmentRecords extends Fragment {
 
 
         record item = new record();
-        Cursor c = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.PHONE_NUMBER, dbHelper.SEED}, null, null, null, null, null);
+        Cursor c = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.PHONE_NUMBER, dbHelper.SEED, dbHelper.KEY_ID}, null, null, null, null, null);
         // ставим позицию курсора на первую строку выборки
         // если в выборке нет строк, вернется false
         if (c.moveToFirst()) {
 
             int phoneNumberColIndex = c.getColumnIndex(dbHelper.PHONE_NUMBER);
             int seedColIndex = c.getColumnIndex(dbHelper.SEED);
-
+            int idColIndex = c.getColumnIndex(dbHelper.KEY_ID);
             do {
 
                 item.setIshod(true);
                 item.setNumber(c.getString(phoneNumberColIndex));
                 item.setTime(c.getString(seedColIndex));
+                item.set_id(c.getInt(idColIndex));
                 item.setTime_call("00:45");
                 list.add(item);
 
