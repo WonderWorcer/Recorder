@@ -7,13 +7,21 @@ package com.recoder.recoder.models;
 public class words {
     private String word;
     private Integer priority;
-
+    private String _id;
     public String getWord() {
         return word;
     }
 
     public void setWord(String word) {
         this.word = word;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public Integer getPriority() {

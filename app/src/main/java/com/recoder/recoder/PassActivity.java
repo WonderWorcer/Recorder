@@ -1,18 +1,21 @@
 package com.recoder.recoder;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
+
+import com.recoder.recoder.Helper.PrefsHelper;
 
 public class PassActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     CheckBox onOffPassword;
     CheckBox deleteAll;
-
+    public String PREF_PASSWORD_ACTIVE = "PrefPasswordActive";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +31,9 @@ public class PassActivity extends AppCompatActivity {
 
         onOffPassword = (CheckBox) findViewById(R.id.onOffPassword);
         deleteAll = (CheckBox) findViewById(R.id.deleteAll);
+        if (PrefsHelper.readPrefBool(App.getContext(), PREF_PASSWORD_ACTIVE)) {
+            onOffPassword.setSelected(true);
+        }
 
         onOffPassword.setOnClickListener(new View.OnClickListener() {
 
@@ -35,6 +41,8 @@ public class PassActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(onOffPassword.isChecked()){
+                    Intent intent = new Intent(App.getContext(), PasswordActivity.class);
+                    startActivity(intent);
                     Toast.makeText(PassActivity.this, "Включил пароль", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(PassActivity.this, "Выключил пароль", Toast.LENGTH_SHORT).show();

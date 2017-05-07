@@ -1,5 +1,6 @@
 package com.recoder.recoder;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     public NavigationView nvDrawer;
     public String PREF_API_KEY = "PrefApiKey";
+    public String PREF_PASSWORD_ACTIVE = "PrefPasswordActive";
     CallRecord callRecord;
 
     @Override
@@ -63,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
         ThreadsApp threadsApp = new ThreadsApp();
         threadsApp.threadController();
+        PrefsHelper.writePrefBool(App.getContext(), PREF_PASSWORD_ACTIVE, true);
+        if (PrefsHelper.readPrefBool(App.getContext(), PREF_PASSWORD_ACTIVE)) {
+            Intent intent = new Intent(App.getContext(), PasswordActivity.class);
+            startActivity(intent);
+        }
 
     }
 

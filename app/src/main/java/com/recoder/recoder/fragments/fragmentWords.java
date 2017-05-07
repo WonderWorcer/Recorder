@@ -117,15 +117,17 @@ public class fragmentWords extends Fragment {
         });
 
         Cursor cursor = database.query(dbHelper.TABLE_USER_DICTIONARY_WORDS,
-                new String[]{dbHelper.KEY_WORD, dbHelper.VALUE_WORD}, null, null, null, null, null);
+                new String[]{dbHelper.KEY_WORD, dbHelper.VALUE_WORD, dbHelper.KEY_ID}, null, null, null, null, null);
         if (cursor.moveToFirst()) {
 
             int keyWordColIndex = cursor.getColumnIndex(dbHelper.KEY_WORD);
             int valueWordColIndex = cursor.getColumnIndex(dbHelper.VALUE_WORD);
+            int idColIndex = cursor.getColumnIndex(dbHelper.KEY_ID);
             do {
                 words item = new words();
                 item.setWord(cursor.getString(keyWordColIndex));
                 item.setPriority(cursor.getInt(valueWordColIndex));
+                item.set_id(cursor.getString(idColIndex));
                 list.add(item);
                 // переход на следующую строку
                 // а если следующей нет (текущая - последняя), то false - выходим из цикла
