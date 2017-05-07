@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         callRecord.startCallRecordService();
         callRecord.startCallReceiver();
+        PrefsHelper.writePrefInt(this, "PrefAutoDelete", 0);
         PrefsHelper.writePrefString(this, PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
         App.setContext(this);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);

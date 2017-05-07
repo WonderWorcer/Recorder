@@ -1,7 +1,10 @@
 package com.recoder.recoder.fragments;
 
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.recoder.recoder.App;
+import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.MainActivity;
 import com.recoder.recoder.R;
 import com.recoder.recoder.adapters.rvWords;
@@ -29,6 +33,8 @@ import java.util.ArrayList;
 public class fragmentWords extends Fragment {
 
     Toolbar toolbar;
+    DBHelper dbHelper = new DBHelper(App.getContext());
+    SQLiteDatabase database = dbHelper.getWritableDatabase();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -82,10 +88,14 @@ public class fragmentWords extends Fragment {
                                     public void onClick(DialogInterface dialog, int id) {
                                         // get user input and set it to result
                                         // edit text
-                                        words item = new words();
-                                        item.setWord(inputWord.getText().toString());
-                                        item.setPriority(Integer.parseInt(inputPrioritet.getText().toString()));
-                                        list.add(item);
+                                        ContentValues contentValues = new ContentValues();
+                                        contentValues.put(dbHelper.KEY_WORD, inputWord.getText().toString());
+                                        if (Integer.parseInt(inputPrioritet.getText().toString()) > 10)
+                                            contentValues.put(dbHelper.VALUE_WORD, 10);
+                                        else
+                                            contentValues.put(dbHelper.VALUE_WORD, Integer.parseInt(inputPrioritet.getText().toString()));
+
+                                        database.insert(dbHelper.TABLE_USER_DICTIONARY_WORDS, null, contentValues);
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -106,13 +116,24 @@ public class fragmentWords extends Fragment {
             }
         });
 
-        words item = new words();
-        item.setWord("Слово");
-        item.setPriority(150);
+        Cursor cursor = database.query(dbHelper.TABLE_USER_DICTIONARY_WORDS,
+                new String[]{dbHelper.KEY_WORD, dbHelper.VALUE_WORD}, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
 
-//        for (int i = 0; i <  5 ; i++) {
-//            list.add(item);
-//        }
+            int keyWordColIndex = cursor.getColumnIndex(dbHelper.KEY_WORD);
+            int valueWordColIndex = cursor.getColumnIndex(dbHelper.VALUE_WORD);
+            do {
+                words item = new words();
+                item.setWord(cursor.getString(keyWordColIndex));
+                item.setPriority(cursor.getInt(valueWordColIndex));
+                list.add(item);
+                // переход на следующую строку
+                // а если следующей нет (текущая - последняя), то false - выходим из цикла
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+
 
         try {
             mLayoutManager = new LinearLayoutManager(getActivity());

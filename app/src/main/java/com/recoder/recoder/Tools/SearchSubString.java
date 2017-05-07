@@ -35,7 +35,7 @@ public class SearchSubString {
     }
 
     public int[] result(String response) {
-        int result[] = new int[6];
+        int result[] = new int[7];
 
         result[0] = checkFilter(response, dbHelper.TABLE_DRAG_WORDS);
         result[1] = checkFilter(response, dbHelper.TABLE_EXTREMIST_WORDS);
@@ -43,7 +43,7 @@ public class SearchSubString {
         result[3] = checkFilter(response, dbHelper.TABLE_PROFANITY_WORDS);
         result[4] = checkFilter(response, dbHelper.TABLE_STATE_SECRET_WORDS);
         result[5] = checkFilter(response, dbHelper.TABLE_BANK_SECRET_WORDS);
-
+        result[6] = checkFilter(response, dbHelper.TABLE_USER_DICTIONARY_WORDS);
         return result;
     }
 }

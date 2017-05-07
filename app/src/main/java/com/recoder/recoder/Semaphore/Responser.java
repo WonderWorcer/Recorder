@@ -28,7 +28,7 @@ public class Responser extends Thread {
     Context context = App.getContext();
     public String PREF_API_KEY = "PrefApiKey";
     Recognizer recognizer = new Recognizer(Recognizer.Languages.RUSSIAN, PrefsHelper.readPrefString(context, PREF_API_KEY));
-    int[][] finalyResult = new int[6][6];
+    int[][] finalyResult = new int[7][7];
 
     Responser(Semaphore sem, String _id, String recordPath) {
         this.sem = sem;
@@ -56,9 +56,9 @@ public class Responser extends Thread {
                     finalyResult[i] = sss.result(responses.get(i));
                 }
 
-                for (int k = 0; k < 5; k++)
-                    for (int i = 0; i < 5; i++) {
-                        for (int j = 0; j < 6; j++) {
+                for (int k = 0; k < 6; k++)
+                    for (int i = 0; i < 6; i++) {
+                        for (int j = 0; j < 7; j++) {
                             if (finalyResult[i][j] < finalyResult[i + 1][j]) {
                                 int temp = finalyResult[i][j];
                                 finalyResult[i][j] = finalyResult[i + 1][j];
@@ -76,6 +76,7 @@ public class Responser extends Thread {
                 contentValues.put(dbHelper.PROFANITY_FILTER, Integer.toString(finalyResult[0][3]));
                 contentValues.put(dbHelper.STATE_SECRET_FILTER, Integer.toString(finalyResult[0][4]));
                 contentValues.put(dbHelper.BANK_SECRET_FILTER, Integer.toString(finalyResult[0][5]));
+                contentValues.put(dbHelper.USER_DICTIONARY_FILTER, Integer.toString(finalyResult[0][6]));
                 contentValues.put(dbHelper.RECORD_STATUS, "Checked");
 
                 db.update(dbHelper.TABLE_RECORDS, contentValues, "_id = ?", new String[]{_id});

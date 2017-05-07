@@ -154,6 +154,7 @@ public class AMRSplit {
             newValues.put(dbHelper.PROFANITY_FILTER, "0");
             newValues.put(dbHelper.STATE_SECRET_FILTER, "0");
             newValues.put(dbHelper.BANK_SECRET_FILTER, "0");
+            newValues.put(dbHelper.USER_DICTIONARY_FILTER, "0");
             db.insert(dbHelper.TABLE_RECORDS, null, newValues);
         }
 
@@ -189,6 +190,7 @@ public class AMRSplit {
             newValues.put(dbHelper.PROFANITY_FILTER, "0");
             newValues.put(dbHelper.STATE_SECRET_FILTER, "0");
             newValues.put(dbHelper.BANK_SECRET_FILTER, "0");
+            newValues.put(dbHelper.USER_DICTIONARY_FILTER, "0");
             db.insert(dbHelper.TABLE_RECORDS, null, newValues);
         }
 
