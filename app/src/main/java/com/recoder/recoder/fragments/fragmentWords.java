@@ -1,22 +1,24 @@
 package com.recoder.recoder.fragments;
 
 
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.recoder.recoder.App;
 import com.recoder.recoder.MainActivity;
 import com.recoder.recoder.R;
-import com.recoder.recoder.adapters.rvRecords;
 import com.recoder.recoder.adapters.rvWords;
-import com.recoder.recoder.models.record;
 import com.recoder.recoder.models.words;
 
 import java.util.ArrayList;
@@ -59,6 +61,48 @@ public class fragmentWords extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Добавление слова", Toast.LENGTH_SHORT).show();
+
+                LayoutInflater li = LayoutInflater.from(App.getContext());
+                View promptsView = li.inflate(R.layout.add_dialog, null);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        App.getContext());
+// set prompts.xml to alertdialog builder
+                alertDialogBuilder.setView(promptsView);
+
+                final EditText inputWord = (EditText) promptsView
+                        .findViewById(R.id.addword);
+                final EditText inputPrioritet = (EditText) promptsView
+                        .findViewById(R.id.addprioritet);
+                // set dialog message
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // get user input and set it to result
+                                        // edit text
+                                        words item = new words();
+                                        item.setWord(inputWord.getText().toString());
+                                        item.setPriority(Integer.parseInt(inputPrioritet.getText().toString()));
+                                        list.add(item);
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+
+
+
             }
         });
 
@@ -66,9 +110,9 @@ public class fragmentWords extends Fragment {
         item.setWord("Слово");
         item.setPriority(150);
 
-        for (int i = 0; i <  5 ; i++) {
-            list.add(item);
-        }
+//        for (int i = 0; i <  5 ; i++) {
+//            list.add(item);
+//        }
 
         try {
             mLayoutManager = new LinearLayoutManager(getActivity());

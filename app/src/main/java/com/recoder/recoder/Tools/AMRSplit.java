@@ -182,7 +182,7 @@ public class AMRSplit {
             newValues.put(dbHelper.SEED, splitString[3]);
             newValues.put(dbHelper.CALLTIME, "<1мин");
             newValues.put(dbHelper.CALLDATE, splitString[1]);
-            newValues.put(dbHelper.RECORD_STATUS, "Not Checked");
+            newValues.put(dbHelper.RECORD_STATUS, "NotChecked");
             newValues.put(dbHelper.DRAG_FILTER, "0");
             newValues.put(dbHelper.EXTREMIST_FILTER, "0");
             newValues.put(dbHelper.THEFT_FILTER, "0");

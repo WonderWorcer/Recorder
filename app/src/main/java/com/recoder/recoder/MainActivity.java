@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 
+import com.recoder.recoder.Helper.PrefsHelper;
+import com.recoder.recoder.Semaphore.ThreadsApp;
 import com.recoder.recoder.fragments.fragmentAnalyzeRecords;
 import com.recoder.recoder.fragments.fragmentAnalyzeWords;
 import com.recoder.recoder.fragments.fragmentRecords;
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawer;
     public NavigationView nvDrawer;
-
+    public String PREF_API_KEY = "PrefApiKey";
     CallRecord callRecord;
 
     @Override
@@ -47,19 +50,18 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         callRecord.startCallRecordService();
         callRecord.startCallReceiver();
-
+        PrefsHelper.writePrefString(this, PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
         App.setContext(this);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
         selectDrawerItem(nvDrawer.getMenu().getItem(0));
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-
-
-
-
-
+        ThreadsApp threadsApp = new ThreadsApp();
+        threadsApp.threadController();
 
     }
 

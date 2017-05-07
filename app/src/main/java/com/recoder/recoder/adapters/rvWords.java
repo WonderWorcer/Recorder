@@ -9,13 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.recoder.recoder.R;
-import com.recoder.recoder.models.record;
 import com.recoder.recoder.models.words;
 
 import java.util.ArrayList;
@@ -85,7 +83,7 @@ public class rvWords extends RecyclerView.Adapter<rvWords.ViewHolder> {
         holder.ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Клик по записи!sdkjfhdflk" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Клик по записи!", Toast.LENGTH_SHORT).show();
             }
         });
 

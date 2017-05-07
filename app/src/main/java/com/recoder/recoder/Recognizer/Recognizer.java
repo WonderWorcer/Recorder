@@ -1,5 +1,10 @@
 package com.recoder.recoder.Recognizer;
 
+import android.content.Context;
+
+import com.recoder.recoder.App;
+import com.recoder.recoder.Helper.PrefsHelper;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -124,11 +129,11 @@ public class Recognizer implements IRecognizer {
      */
 
     private static final String GOOGLE_RECOGNIZER_URL = "http://www.google.com/speech-api/v2/recognize?client=chromium&output=json";
-
+    public String PREF_API_KEY = "PrefApiKey";
     private boolean profanityFilter = true;
     private String language = null;
     private String apikey = null;
-
+    Context context = App.getContext();
     /**
      * Констуктор
      *
@@ -138,6 +143,7 @@ public class Recognizer implements IRecognizer {
     public Recognizer(String language, String apikey) {
         this.language = language;
         this.apikey = apikey;
+        PrefsHelper.writePrefString(context, PREF_API_KEY, apikey);
     }
 
     /**
@@ -149,6 +155,7 @@ public class Recognizer implements IRecognizer {
     public Recognizer(Languages language, String apikey) {
         this.language = language.languageCode;
         this.apikey = apikey;
+        PrefsHelper.writePrefString(context, PREF_API_KEY, apikey);
     }
 
     /**
@@ -160,6 +167,7 @@ public class Recognizer implements IRecognizer {
     public Recognizer(boolean profanityFilter, String apikey) {
         this.profanityFilter = profanityFilter;
         this.apikey = apikey;
+        PrefsHelper.writePrefString(context, PREF_API_KEY, apikey);
     }
 
     /**
@@ -173,6 +181,7 @@ public class Recognizer implements IRecognizer {
         this.language = language;
         this.profanityFilter = profanityFilter;
         this.apikey = apikey;
+        PrefsHelper.writePrefString(context, PREF_API_KEY, apikey);
     }
 
     /**
@@ -186,6 +195,7 @@ public class Recognizer implements IRecognizer {
         this.language = language.languageCode;
         this.profanityFilter = profanityFilter;
         this.apikey = apikey;
+        PrefsHelper.writePrefString(context, PREF_API_KEY, apikey);
     }
 
     /**
