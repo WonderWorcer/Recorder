@@ -29,7 +29,7 @@ public class ThreadsApp {
             int recordPathColIndex = cursor.getColumnIndex(dbHelper.RECORD_PATH);
             int idColIndex = cursor.getColumnIndex(dbHelper.KEY_ID);
             do {
-                new Responser(sem, cursor.getString(idColIndex), cursor.getString(recordPathColIndex)).run();
+                new Responser(sem, cursor.getString(idColIndex), cursor.getString(recordPathColIndex)).start();
                 // переход на следующую строку
                 // а если следующей нет (текущая - последняя), то false - выходим из цикла
             } while (cursor.moveToNext());

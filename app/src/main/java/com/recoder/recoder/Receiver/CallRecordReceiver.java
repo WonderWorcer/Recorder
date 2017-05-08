@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.MediaRecorder;
 import android.util.Log;
 
+import com.recoder.recoder.App;
 import com.recoder.recoder.CallRecord;
 import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.Tools.AMRSplit;
@@ -55,7 +56,7 @@ public class CallRecordReceiver extends PhoneCallReceiver {
      */
     @Override
     protected void onIncomingCallReceived(Context ctx,  String number, Date start) {
-        //startRecord(ctx, "incoming", number);
+        //    startRecord(ctx, "incoming", number);
     }
 
     /**
@@ -190,7 +191,7 @@ public class CallRecordReceiver extends PhoneCallReceiver {
                 sampleDir.mkdirs();
             }
 
-
+            phoneNumber = App.getPhoneNumber();
             StringBuilder fileNameBuilder = new StringBuilder();
             fileNameBuilder.append(file_name);
             fileNameBuilder.append("_");

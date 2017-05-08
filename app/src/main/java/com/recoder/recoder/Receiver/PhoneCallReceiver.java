@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
 
+import com.recoder.recoder.App;
+
 import java.util.Date;
 
 
@@ -41,13 +43,11 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(CallRecordReceiver.ACTION_OUT)) {
 
             savedNumber = intent.getExtras().getString(CallRecordReceiver.EXTRA_PHONE_NUMBER);
-
+            App.setPhoneNumber(savedNumber);
         } else {
 
             String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
             String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-            //  TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-            //  number =  telephonyManager.getLine1Number();
             savedNumber = number;
 
             int state = 0;
@@ -62,6 +62,7 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
 
 
             onCallStateChanged(context, state, savedNumber);
+            App.setPhoneNumber(savedNumber);
         }
     }
 
@@ -135,6 +136,7 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
             //No change, debounce extras
             return;
         }
+
         savedNumber = number;
         switch (state) {
             case TelephonyManager.CALL_STATE_RINGING:

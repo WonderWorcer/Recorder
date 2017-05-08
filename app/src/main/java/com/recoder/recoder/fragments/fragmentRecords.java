@@ -62,7 +62,7 @@ public class fragmentRecords extends Fragment {
         });
 
 
-        record item = new record();
+
         Cursor c = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.PHONE_NUMBER, dbHelper.SEED, dbHelper.KEY_ID}, null, null, null, null, null);
         // ставим позицию курсора на первую строку выборки
         // если в выборке нет строк, вернется false
@@ -72,7 +72,7 @@ public class fragmentRecords extends Fragment {
             int seedColIndex = c.getColumnIndex(dbHelper.SEED);
             int idColIndex = c.getColumnIndex(dbHelper.KEY_ID);
             do {
-
+                record item = new record();
                 item.setIshod(true);
                 item.setNumber(c.getString(phoneNumberColIndex));
                 item.setTime(c.getString(seedColIndex));
@@ -86,8 +86,8 @@ public class fragmentRecords extends Fragment {
         }
 
         c.close();
-
 /*
+
         item.setIshod(true);
         item.setNumber("+7 122 666 22 45");
         item.setTime("18:25, 7 января");

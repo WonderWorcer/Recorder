@@ -15,7 +15,6 @@ public class PassActivity extends AppCompatActivity {
     Toolbar toolbar;
     CheckBox onOffPassword;
     CheckBox deleteAll;
-    public String PREF_PASSWORD_ACTIVE = "PrefPasswordActive";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,20 +30,26 @@ public class PassActivity extends AppCompatActivity {
 
         onOffPassword = (CheckBox) findViewById(R.id.onOffPassword);
         deleteAll = (CheckBox) findViewById(R.id.deleteAll);
-        if (PrefsHelper.readPrefBool(App.getContext(), PREF_PASSWORD_ACTIVE)) {
-            onOffPassword.setSelected(true);
+        if (PrefsHelper.readPrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE)) {
+            onOffPassword.setChecked(true);
         }
-
+        if (PrefsHelper.readPrefBool(App.getContext(), App.PREF_DELETE_AFTER_10_ATTEMPT)) {
+            deleteAll.setChecked(true);
+        }
         onOffPassword.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
                 if(onOffPassword.isChecked()){
+                    PrefsHelper.writePrefString(App.getContext(), App.PREF_PASSWORD, null);
+                    PrefsHelper.writePrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE, false);
                     Intent intent = new Intent(App.getContext(), PasswordActivity.class);
                     startActivity(intent);
                     Toast.makeText(PassActivity.this, "Включил пароль", Toast.LENGTH_SHORT).show();
                 }else{
+                    PrefsHelper.writePrefString(App.getContext(), App.PREF_PASSWORD, null);
+                    PrefsHelper.writePrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE, false);
                     Toast.makeText(PassActivity.this, "Выключил пароль", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -56,8 +61,10 @@ public class PassActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(deleteAll.isChecked()){
+                    PrefsHelper.writePrefBool(App.getContext(), App.PREF_DELETE_AFTER_10_ATTEMPT, true);
                     Toast.makeText(PassActivity.this, "Включил удаление", Toast.LENGTH_SHORT).show();
                 }else{
+                    PrefsHelper.writePrefBool(App.getContext(), App.PREF_DELETE_AFTER_10_ATTEMPT, false);
                     Toast.makeText(PassActivity.this, "Выключил удаление", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -66,6 +73,9 @@ public class PassActivity extends AppCompatActivity {
         findViewById(R.id.llChangePass).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PrefsHelper.writePrefBool(App.getContext(), App.PREF_CHANGE_PASSWORD, true);
+                Intent intent = new Intent(App.getContext(), PasswordActivity.class);
+                startActivity(intent);
                 Toast.makeText(PassActivity.this, "Сменить пароль", Toast.LENGTH_SHORT).show();
             }
         });

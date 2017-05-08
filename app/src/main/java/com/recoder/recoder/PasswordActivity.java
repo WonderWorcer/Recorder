@@ -1,21 +1,24 @@
 package com.recoder.recoder;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.view.PwdGestureView;
 
 public class PasswordActivity extends AppCompatActivity {
-    public final static String PREF_PASSWORD = "prefPassword";
     PwdGestureView mPwdGestureView;
     String firstPassword = "";
     boolean isFirstPasswordEnter = false;
     TextView tv_pwd, tv_input_pwd;
     RadioGroup rg_RadioGroup;
-
+    DBHelper dbHelper = new DBHelper(App.getContext());
+    SQLiteDatabase db = dbHelper.getWritableDatabase();
+    int failedCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,20 +31,51 @@ public class PasswordActivity extends AppCompatActivity {
         rg_RadioGroup = (RadioGroup) findViewById(R.id.rg_RadioGroup);
 
         try {
-            mPwdGestureView.setOldPwd(PrefsHelper.readPrefString(App.getContext(), PREF_PASSWORD));
+            mPwdGestureView.setOldPwd(PrefsHelper.readPrefString(App.getContext(), App.PREF_PASSWORD));
+            failedCount = 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        tv_pwd.setText("Введите пароль");
 //        mPwdGestureView.setOldPwd("012543");
         mPwdGestureView.setIsDrawLine(true);
 
         mPwdGestureView.startWork(new PwdGestureView.GetPwd() {
             @Override
             public void onGetPwd(String pwd) {
-                if (pwd == "true")
+                if (PrefsHelper.readPrefBool(App.getContext(), App.PREF_CHANGE_PASSWORD)) {
+                    if (pwd == "true") {
+                        PrefsHelper.writePrefBool(App.getContext(), App.PREF_CHANGE_PASSWORD, false);
+                        PrefsHelper.writePrefString(App.getContext(), App.PREF_PASSWORD, null);
+                        PrefsHelper.writePrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE, false);
+                        mPwdGestureView.setOldPwd(null);
+                        tv_pwd.setText("Введите пароль");
+                    } else
+                        tv_pwd.setText("Введите пароль верно");
+                } else if (pwd == "true")
                     onBackPressed();
-                //tv_pwd.setText(pwd);
+                else if (isFirstPasswordEnter) {
+                    if (pwd.equals(firstPassword)) {
+                        PrefsHelper.writePrefString(App.getContext(), App.PREF_PASSWORD, pwd);
+                        PrefsHelper.writePrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE, true);
+                        onBackPressed();
+                    } else {
+                        firstPassword = "";
+                        isFirstPasswordEnter = false;
+                        tv_pwd.setText("Пароль не верен, попробуйте еще раз");
+                    }
+
+                } else if (!PrefsHelper.readPrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE)) {
+                    firstPassword = pwd;
+                    isFirstPasswordEnter = true;
+                    tv_pwd.setText("Повторите пароль");
+                } else if (PrefsHelper.readPrefBool(App.getContext(), App.PREF_DELETE_AFTER_10_ATTEMPT)) {
+                    failedCount++;
+                    tv_pwd.setText(Integer.toString(failedCount) + "Неправильный попыток");
+                    if (failedCount == 10)
+                        db.delete(dbHelper.TABLE_RECORDS, null, null);
+                } else
+                    tv_pwd.setText("Введите правильный пароль");
             }
         });
 

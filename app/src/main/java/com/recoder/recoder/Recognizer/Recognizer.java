@@ -129,7 +129,6 @@ public class Recognizer implements IRecognizer {
      */
 
     private static final String GOOGLE_RECOGNIZER_URL = "http://www.google.com/speech-api/v2/recognize?client=chromium&output=json";
-    public String PREF_API_KEY = "PrefApiKey";
     private boolean profanityFilter = true;
     private String language = null;
     private String apikey = null;
@@ -143,7 +142,7 @@ public class Recognizer implements IRecognizer {
     public Recognizer(String language, String apikey) {
         this.language = language;
         this.apikey = apikey;
-        PrefsHelper.writePrefString(context, PREF_API_KEY, apikey);
+        PrefsHelper.writePrefString(context, App.PREF_API_KEY, apikey);
     }
 
     /**
@@ -155,7 +154,7 @@ public class Recognizer implements IRecognizer {
     public Recognizer(Languages language, String apikey) {
         this.language = language.languageCode;
         this.apikey = apikey;
-        PrefsHelper.writePrefString(context, PREF_API_KEY, apikey);
+        PrefsHelper.writePrefString(context, App.PREF_API_KEY, apikey);
     }
 
     /**
@@ -167,7 +166,7 @@ public class Recognizer implements IRecognizer {
     public Recognizer(boolean profanityFilter, String apikey) {
         this.profanityFilter = profanityFilter;
         this.apikey = apikey;
-        PrefsHelper.writePrefString(context, PREF_API_KEY, apikey);
+        PrefsHelper.writePrefString(context, App.PREF_API_KEY, apikey);
     }
 
     /**
@@ -181,7 +180,7 @@ public class Recognizer implements IRecognizer {
         this.language = language;
         this.profanityFilter = profanityFilter;
         this.apikey = apikey;
-        PrefsHelper.writePrefString(context, PREF_API_KEY, apikey);
+        PrefsHelper.writePrefString(context, App.PREF_API_KEY, apikey);
     }
 
     /**
@@ -195,7 +194,7 @@ public class Recognizer implements IRecognizer {
         this.language = language.languageCode;
         this.profanityFilter = profanityFilter;
         this.apikey = apikey;
-        PrefsHelper.writePrefString(context, PREF_API_KEY, apikey);
+        PrefsHelper.writePrefString(context, App.PREF_API_KEY, apikey);
     }
 
     /**
@@ -334,7 +333,7 @@ public class Recognizer implements IRecognizer {
         OutputStream outputStream;
         BufferedReader br;
 
-        StringBuilder sb = new StringBuilder(GOOGLE_RECOGNIZER_URL);
+        StringBuilder sb = new StringBuilder(App.GOOGLE_RECOGNIZER_URL);
         if (language != null) {
             sb.append("&lang=");
             sb.append(language);

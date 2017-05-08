@@ -44,7 +44,7 @@ public class AsyncTasker extends AsyncTask<String, Void, Void> {
             SearchSubString sss = new SearchSubString();
             for (int i = 0; i < responses.size(); i++) {
                 //todo check all files
-                finalyResult[i] = sss.result(responses.get(i));
+                // finalyResult[i] = sss.result(responses.get(i));
             }
 
             for (int k = 0; k < 5; k++)

@@ -16,7 +16,6 @@ import com.recoder.recoder.Helper.PrefsHelper;
 public class ActivationActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView textView;
-    public String PREF_API_KEY = "PrefApiKey";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +27,7 @@ public class ActivationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         textView = (TextView) findViewById(R.id.ApiKey);
-        textView.setText(PrefsHelper.readPrefString(App.getContext(), PREF_API_KEY));
+        textView.setText(PrefsHelper.readPrefString(App.getContext(), App.PREF_API_KEY));
 
 
         findViewById(R.id.APIChange).setOnClickListener(new View.OnClickListener() {
@@ -55,7 +54,7 @@ public class ActivationActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int id) {
                                         // get user input and set it to result
                                         // edit text
-                                        PrefsHelper.writePrefString(App.getContext(), PREF_API_KEY, input.getText().toString());
+                                        PrefsHelper.writePrefString(App.getContext(), App.PREF_API_KEY, input.getText().toString());
                                         Toast.makeText(App.getContext(), "Запись сохранена", Toast.LENGTH_SHORT).show();
 
                                     }

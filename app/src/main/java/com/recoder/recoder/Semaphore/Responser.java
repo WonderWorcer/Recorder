@@ -26,8 +26,7 @@ public class Responser extends Thread {
     String recordPath;
     List<String> responses = new ArrayList<String>();
     Context context = App.getContext();
-    public String PREF_API_KEY = "PrefApiKey";
-    Recognizer recognizer = new Recognizer(Recognizer.Languages.RUSSIAN, PrefsHelper.readPrefString(context, PREF_API_KEY));
+    Recognizer recognizer = new Recognizer(Recognizer.Languages.RUSSIAN, PrefsHelper.readPrefString(context, App.PREF_API_KEY));
     int[][] finalyResult = new int[7][7];
 
     Responser(Semaphore sem, String _id, String recordPath) {
@@ -53,7 +52,7 @@ public class Responser extends Thread {
                 SearchSubString sss = new SearchSubString();
                 for (int i = 0; i < responses.size(); i++) {
                     //todo check all files
-                    finalyResult[i] = sss.result(responses.get(i));
+                    finalyResult[i] = sss.result(responses.get(i), _id);
                 }
 
                 for (int k = 0; k < 6; k++)

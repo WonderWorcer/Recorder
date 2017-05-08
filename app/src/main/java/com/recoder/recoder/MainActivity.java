@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawer;
     public NavigationView nvDrawer;
-    public String PREF_API_KEY = "PrefApiKey";
-    public String PREF_PASSWORD_ACTIVE = "PrefPasswordActive";
     CallRecord callRecord;
 
     @Override
@@ -53,20 +51,25 @@ public class MainActivity extends AppCompatActivity {
         callRecord.startCallRecordService();
         callRecord.startCallReceiver();
         PrefsHelper.writePrefInt(this, "PrefAutoDelete", 0);
-        PrefsHelper.writePrefString(this, PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
+        PrefsHelper.writePrefString(this, App.PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
         App.setContext(this);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
         selectDrawerItem(nvDrawer.getMenu().getItem(0));
 
+        //Необходимо для обновления базы
+        //DBHelper dbHelper = new DBHelper(this);
+        //SQLiteDatabase db = dbHelper.getWritableDatabase();
+        //dbHelper.onUpgrade(db,1,3);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         ThreadsApp threadsApp = new ThreadsApp();
         threadsApp.threadController();
-        PrefsHelper.writePrefBool(App.getContext(), PREF_PASSWORD_ACTIVE, true);
-        if (PrefsHelper.readPrefBool(App.getContext(), PREF_PASSWORD_ACTIVE)) {
+        PrefsHelper.writePrefBool(App.getContext(), App.PREF_DELETE_AFTER_10_ATTEMPT, false);
+        if (PrefsHelper.readPrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE)) {
             Intent intent = new Intent(App.getContext(), PasswordActivity.class);
             startActivity(intent);
         }
