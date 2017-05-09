@@ -71,22 +71,26 @@ public class fragmentAnalyzeRecords extends Fragment {
                 analyzeRecords item = new analyzeRecords();
                 ArrayList<words> liist = new ArrayList<>();
                 item.setName(c.getString(phoneNumberColIndex));
-                item.setPriority(15);
+
                 Cursor cursor = db.query(dbHelper.TABLE_USED_WORDS,
                         new String[]{dbHelper.KEY_WORD, dbHelper.VALUE_WORD, dbHelper.FILTER_NAME},
                         dbHelper.WORDS_ON_RECORD + "= ?",
                         new String[]{c.getString(keyIdColIndex)}, null, null, null, null);
                 if (cursor.moveToFirst()) {
-                    int keyWordColIndex = c.getColumnIndex(dbHelper.PHONE_NUMBER);
-                    int valueWordColIndex = c.getColumnIndex(dbHelper.KEY_ID);
+                    int filterNameColIndex = cursor.getColumnIndex(dbHelper.FILTER_NAME);
+                    int keyWordColIndex = cursor.getColumnIndex(dbHelper.KEY_WORD);
+                    int valueWordColIndex = cursor.getColumnIndex(dbHelper.VALUE_WORD);
+
                     do {
                         words word = new words();
                         word.setWord(cursor.getString(keyWordColIndex));
                         word.setPriority(cursor.getInt(valueWordColIndex));
+                        word.setFilterName(cursor.getString(filterNameColIndex));
                         liist.add(word);
                     } while (cursor.moveToNext());
                     cursor.close();
                 }
+                item.setPriority(15);
                 item.setListOfWords(liist);
                 list.add(item);
 

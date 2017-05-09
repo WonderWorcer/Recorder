@@ -13,6 +13,7 @@ public class App extends Application {
     private static String phoneNumber;
     public final static String PREF_PASSWORD = "prefPassword";
     public final static String PREF_PASSWORD_ACTIVE = "PrefPasswordActive";
+    public final static String PREF_AUTOFILLBASE = "prefAutoFillBase";
     public final static String PREF_CHANGE_PASSWORD = "prefChangePassword";
     public final static String PREF_DELETE_AFTER_10_ATTEMPT = "prefDeleteAfter10Attempt";
     public final static String PREF_API_KEY = "PrefApiKey";

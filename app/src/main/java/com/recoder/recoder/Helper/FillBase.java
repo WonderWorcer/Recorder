@@ -5,7 +5,6 @@ package com.recoder.recoder.Helper;
  */
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.recoder.recoder.App;
@@ -21,7 +20,16 @@ public class FillBase {
         database.insert(table, null, contentValues);
     }
 
-    public void FillExtremistWords(Context context) {
+    public void fillAllBase() {
+        FillExtremistWords();
+        FillDragWords();
+        FillStateSecretWords();
+        FillTheftWords();
+        FillProfanityWords();
+        FillBankSecretWords();
+    }
+
+    public void FillExtremistWords() {
         database.delete(dbHelper.TABLE_EXTREMIST_WORDS, null, null);
         addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "бомба", 8);
         addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "взрыв", 8);
@@ -37,7 +45,7 @@ public class FillBase {
         addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "убийство", 10);
     }
 
-    public void FillDragWords(Context context) {
+    public void FillDragWords() {
 
         database.delete(dbHelper.TABLE_DRAG_WORDS, null, null);
         addWordOnBase(dbHelper.TABLE_DRAG_WORDS, "доза", 3);
@@ -55,13 +63,13 @@ public class FillBase {
         addWordOnBase(dbHelper.TABLE_DRAG_WORDS, "морфий", 6);
     }
 
-    public void FillStateSecretWords(Context context) {
+    public void FillStateSecretWords() {
 
         database.delete(dbHelper.TABLE_STATE_SECRET_WORDS, null, null);
         addWordOnBase(dbHelper.TABLE_STATE_SECRET_WORDS, "код ракеты", 7);
     }
 
-    public void FillTheftWords(Context context) {
+    public void FillTheftWords() {
 
         database.delete(dbHelper.TABLE_THEFT_WORDS, null, null);
         addWordOnBase(dbHelper.TABLE_THEFT_WORDS, "воров", 8);
@@ -74,14 +82,14 @@ public class FillBase {
 
     }
 
-    public void FillProfanityWords(Context context) {
+    public void FillProfanityWords() {
 
         database.delete(dbHelper.TABLE_PROFANITY_WORDS, null, null);
         addWordOnBase(dbHelper.TABLE_PROFANITY_WORDS, "432543543543", 8);
 
     }
 
-    public void FillBankSecretWords(Context context) {
+    public void FillBankSecretWords() {
 
         database.delete(dbHelper.TABLE_BANK_SECRET_WORDS, null, null);
         addWordOnBase(dbHelper.TABLE_BANK_SECRET_WORDS, "4365464765", 8);

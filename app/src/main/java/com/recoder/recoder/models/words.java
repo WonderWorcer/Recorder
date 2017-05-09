@@ -8,6 +8,7 @@ public class words {
     private String word;
     private Integer priority;
     private String _id;
+    private String filterName;
     public String getWord() {
         return word;
     }
@@ -16,8 +17,17 @@ public class words {
         this.word = word;
     }
 
+    public String getFilterName() {
+        return filterName;
+    }
+
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
+    }
+
     public String get_id() {
         return _id;
+
     }
 
     public void set_id(String _id) {

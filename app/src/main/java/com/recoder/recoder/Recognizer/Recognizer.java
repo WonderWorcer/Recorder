@@ -1,6 +1,7 @@
 package com.recoder.recoder.Recognizer;
 
 import android.content.Context;
+import android.os.StrictMode;
 
 import com.recoder.recoder.App;
 import com.recoder.recoder.Helper.PrefsHelper;
@@ -255,7 +256,7 @@ public class Recognizer implements IRecognizer {
      * @throws IOException
      */
     public GoogleResponse getRecognizedDataForAmr(File amrFile) throws IOException {
-        return getRecognizedDataForAmr(amrFile, 1);
+        return getRecognizedDataForAmr(amrFile, 4);
     }
 
     /**
@@ -369,8 +370,8 @@ public class Recognizer implements IRecognizer {
         urlConn.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) "
                 + "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.52 Safari/537.36");
 
-        // StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        // StrictMode.setThreadPolicy(policy);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         // Send POST output.
         outputStream = urlConn.getOutputStream();
 
@@ -384,7 +385,6 @@ public class Recognizer implements IRecognizer {
 
         fileInputStream.close();
         outputStream.close();
-
         // Get response data.
         br = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), Charset.forName("UTF-8")));
 

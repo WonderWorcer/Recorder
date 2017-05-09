@@ -38,6 +38,7 @@ public class fragmentRecords extends Fragment {
     private ArrayList<record> list = new ArrayList<>();
     SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,8 +63,9 @@ public class fragmentRecords extends Fragment {
         });
 
 
-
-        Cursor c = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.PHONE_NUMBER, dbHelper.SEED, dbHelper.KEY_ID}, null, null, null, null, null);
+        Cursor c = db.query(dbHelper.TABLE_RECORDS,
+                new String[]{dbHelper.PHONE_NUMBER, dbHelper.SEED, dbHelper.KEY_ID, dbHelper.CALLTIME, dbHelper.CALLDATE},
+                null, null, null, null, null);
         // ставим позицию курсора на первую строку выборки
         // если в выборке нет строк, вернется false
         if (c.moveToFirst()) {
@@ -71,13 +73,17 @@ public class fragmentRecords extends Fragment {
             int phoneNumberColIndex = c.getColumnIndex(dbHelper.PHONE_NUMBER);
             int seedColIndex = c.getColumnIndex(dbHelper.SEED);
             int idColIndex = c.getColumnIndex(dbHelper.KEY_ID);
+            int callTimeColIndex = c.getColumnIndex(dbHelper.CALLTIME);
+            int callDateColIndex = c.getColumnIndex(dbHelper.CALLDATE);
             do {
+                // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmmss");
+
                 record item = new record();
                 item.setIshod(true);
                 item.setNumber(c.getString(phoneNumberColIndex));
                 item.setTime(c.getString(seedColIndex));
                 item.set_id(c.getInt(idColIndex));
-                item.setTime_call("00:45");
+                item.setTime_call(c.getString(callTimeColIndex));
                 list.add(item);
 
                 // переход на следующую строку

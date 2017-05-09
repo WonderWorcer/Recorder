@@ -203,6 +203,10 @@ public class CallRecordReceiver extends PhoneCallReceiver {
             }
 
             if (show_seed) {
+                if (seed.equals("outgoing"))
+                    seed = "Исходящий";
+                else
+                    seed = "Входящий";
                 fileNameBuilder.append(seed);
                 fileNameBuilder.append("_");
             }

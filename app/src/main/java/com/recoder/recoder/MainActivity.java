@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,10 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 
+import com.recoder.recoder.Helper.FillBase;
 import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.Semaphore.ThreadsApp;
 import com.recoder.recoder.fragments.fragmentAnalyzeRecords;
 import com.recoder.recoder.fragments.fragmentAnalyzeWords;
+import com.recoder.recoder.fragments.fragmentMainPage;
 import com.recoder.recoder.fragments.fragmentRecords;
 import com.recoder.recoder.fragments.fragmentSettings;
 import com.recoder.recoder.fragments.fragmentWords;
@@ -50,21 +51,25 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         callRecord.startCallRecordService();
         callRecord.startCallReceiver();
-        PrefsHelper.writePrefInt(this, "PrefAutoDelete", 0);
-        PrefsHelper.writePrefString(this, App.PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
+        //PrefsHelper.writePrefInt(this, "PrefAutoDelete", 0);
+        //PrefsHelper.writePrefString(this, App.PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
         App.setContext(this);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
         selectDrawerItem(nvDrawer.getMenu().getItem(0));
 
+        //PrefsHelper.writePrefBool(this, App.PREF_AUTOFILLBASE, true);
+        if (PrefsHelper.readPrefBool(this, App.PREF_AUTOFILLBASE)) {
+            FillBase fillBase = new FillBase();
+            fillBase.fillAllBase();
+            PrefsHelper.writePrefBool(this, App.PREF_AUTOFILLBASE, false);
+        }
+
         //Необходимо для обновления базы
         //DBHelper dbHelper = new DBHelper(this);
         //SQLiteDatabase db = dbHelper.getWritableDatabase();
         //dbHelper.onUpgrade(db,1,3);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
 
         ThreadsApp threadsApp = new ThreadsApp();
         threadsApp.threadController();
@@ -97,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = null;
         Class fragmentClass;
         switch (menuItem.getItemId()) {
+            case R.id.nav_main_page:
+                fragmentClass = fragmentMainPage.class;
+                break;
             case R.id.nav_main_fragment:
                 fragmentClass = fragmentRecords.class;
                 break;

@@ -28,10 +28,11 @@ public class SearchSubString {
                 if (response.contains(c.getString(keyWordColIndex))) {
                     result += c.getInt(valueWordColIndex);
                     ContentValues contentValues = new ContentValues();
+                    contentValues.put(dbHelper.FILTER_NAME, filter);
                     contentValues.put(dbHelper.KEY_WORD, c.getString(keyWordColIndex));
                     contentValues.put(dbHelper.VALUE_WORD, c.getInt(valueWordColIndex));
-                    contentValues.put(dbHelper.FILTER_NAME, splitFilter[1]);
                     contentValues.put(dbHelper.WORDS_ON_RECORD, _id);
+                    db.insert(dbHelper.TABLE_USED_WORDS, null, contentValues);
                 }
                 // переход на следующую строку
                 // а если следующей нет (текущая - последняя), то false - выходим из цикла

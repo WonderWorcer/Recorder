@@ -1,7 +1,10 @@
 package com.recoder.recoder.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.R;
 import com.recoder.recoder.models.record;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -99,6 +103,19 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
         holder.ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent = new Intent();
+                intent.setAction(android.content.Intent.ACTION_VIEW);
+                Cursor cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.RECORD_PATH},
+                        "_id = ?", new String[]{Integer.toString(mDataset.get(position).get_id())}, null, null, null, null);
+                if (cursor.moveToFirst()) {
+                    int pathColIndex = cursor.getColumnIndex(dbHelper.RECORD_PATH);
+                    File file = new File(cursor.getString(pathColIndex));
+                    intent.setDataAndType(Uri.fromFile(file), "audio/*");
+                    App.getContext().startActivity(intent);
+                }
+
+
                 Toast.makeText(context, "Клик по записи!!!! ёё" , Toast.LENGTH_SHORT).show();
             }
         });

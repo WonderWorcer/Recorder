@@ -173,6 +173,9 @@ public class AMRSplit {
             while ((b = in.read()) != -1) {
                 out.write(b);
             }
+            fileSize -= chunkSize * (subfile - 1);
+            fileSize /= frameSize;
+            fileSize /= 100;
 
             // Закрываем файл
             out.close();
@@ -181,7 +184,7 @@ public class AMRSplit {
             newValues.put(dbHelper.RECORD_PATH, path + "/" + "part" + subfile + filename.getName());
             newValues.put(dbHelper.PHONE_NUMBER, splitString[2]);
             newValues.put(dbHelper.SEED, splitString[3]);
-            newValues.put(dbHelper.CALLTIME, "<1мин");
+            newValues.put(dbHelper.CALLTIME, "00:" + Long.toString(fileSize));
             newValues.put(dbHelper.CALLDATE, splitString[1]);
             newValues.put(dbHelper.RECORD_STATUS, "NotChecked");
             newValues.put(dbHelper.DRAG_FILTER, "0");
