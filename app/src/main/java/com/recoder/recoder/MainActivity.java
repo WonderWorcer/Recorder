@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 
+import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.Helper.FillBase;
 import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.Semaphore.ThreadsApp;
@@ -49,8 +50,13 @@ public class MainActivity extends AppCompatActivity {
                 .setShowPhoneNumber(true)
                 .setShowSeed(true)
                 .build();
+        App.setCallRecord(callRecord);
         callRecord.startCallRecordService();
-        callRecord.startCallReceiver();
+        //   PrefsHelper.writePrefBool(this, App.PREF_ISRECORDING, false);
+        if (PrefsHelper.readPrefBool(this, App.PREF_ISRECORDING)) {
+            callRecord.startCallReceiver();
+            PrefsHelper.writePrefBool(this, App.PREF_ISRECORDING, true);
+        }
         //PrefsHelper.writePrefInt(this, "PrefAutoDelete", 0);
         //PrefsHelper.writePrefString(this, App.PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
         App.setContext(this);
@@ -58,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
         selectDrawerItem(nvDrawer.getMenu().getItem(0));
+        PrefsHelper.writePrefInt(this, App.PREF_ALL_FILES, 0);
+        PrefsHelper.writePrefInt(this, App.PREF_ANALIZED_FILES, 0);
+        PrefsHelper.writePrefInt(this, DBHelper.PROFANITY_FILTER, 0);
+        PrefsHelper.writePrefInt(this, DBHelper.USER_DICTIONARY_FILTER, 0);
+        PrefsHelper.writePrefInt(this, DBHelper.THEFT_FILTER, 0);
+        PrefsHelper.writePrefInt(this, DBHelper.DRAG_FILTER, 0);
+        PrefsHelper.writePrefInt(this, DBHelper.EXTREMIST_FILTER, 0);
+        PrefsHelper.writePrefInt(this, DBHelper.STATE_SECRET_FILTER, 0);
+        PrefsHelper.writePrefInt(this, DBHelper.BANK_SECRET_FILTER, 0);
 
         //PrefsHelper.writePrefBool(this, App.PREF_AUTOFILLBASE, true);
         if (PrefsHelper.readPrefBool(this, App.PREF_AUTOFILLBASE)) {
@@ -162,8 +177,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
 }

@@ -173,7 +173,8 @@ public class AMRSplit {
             while ((b = in.read()) != -1) {
                 out.write(b);
             }
-            fileSize -= chunkSize * (subfile - 1);
+            if (fileSize > chunkSize)
+                fileSize -= chunkSize * (subfile - 1);
             fileSize /= frameSize;
             fileSize /= 100;
 

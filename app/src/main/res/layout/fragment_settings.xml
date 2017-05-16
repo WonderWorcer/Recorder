@@ -162,31 +162,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/corn_normal"
-                >
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:background="?android:attr/selectableItemBackground"
-
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="10dp"
-                        android:layout_width="30dp"
-                        android:src="@drawable/uved"
-                        android:layout_height="30dp" />
-
-                    <TextView
-                        android:text="Включить запись"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-            </LinearLayout>
+                android:background="@drawable/corn_normal"></LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_activation"

@@ -153,7 +153,7 @@ public class CallRecordReceiver extends PhoneCallReceiver {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        App.getSemaphore().release();
     }
 
 

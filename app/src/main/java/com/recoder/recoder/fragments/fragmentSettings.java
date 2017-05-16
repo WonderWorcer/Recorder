@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +17,6 @@ import com.recoder.recoder.MainActivity;
 import com.recoder.recoder.MemoryActivity;
 import com.recoder.recoder.PassActivity;
 import com.recoder.recoder.R;
-import com.recoder.recoder.adapters.rvRecords;
-import com.recoder.recoder.models.record;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,8 +28,8 @@ public class fragmentSettings extends Fragment {
     LinearLayout ll_mem;
     LinearLayout ll_pass;
     LinearLayout ll_default;
-    LinearLayout ll_rec_on;
     LinearLayout ll_activition;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,11 +41,10 @@ public class fragmentSettings extends Fragment {
         ll_mem = (LinearLayout) v.findViewById(R.id.ll_mem);
         ll_pass = (LinearLayout) v.findViewById(R.id.ll_pass);
         ll_uved = (LinearLayout) v.findViewById(R.id.ll_uved);
-        ll_rec_on = (LinearLayout) v.findViewById(R.id.ll_rec_on);
         ll_activition = (LinearLayout) v.findViewById(R.id.ll_activation);
 
-        ((MainActivity)getActivity()).setSupportActionBar(toolbar);
-        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Настройки");
+        ((MainActivity) getActivity()).setSupportActionBar(toolbar);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Настройки");
 
         Drawable mDrawable = getActivity().getApplicationContext().getResources().getDrawable(R.drawable.ic_dehaze_24dp);
         toolbar.setNavigationIcon(mDrawable);
@@ -61,7 +54,7 @@ public class fragmentSettings extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).openDrawer();
+                ((MainActivity) getActivity()).openDrawer();
             }
         });
 
@@ -76,7 +69,7 @@ public class fragmentSettings extends Fragment {
         ll_mem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent(getActivity(), MemoryActivity.class);
+                Intent intent = new Intent(getActivity(), MemoryActivity.class);
                 startActivity(intent);
             }
         });
@@ -96,18 +89,11 @@ public class fragmentSettings extends Fragment {
             }
         });
 
-        ll_rec_on.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "нажал настройки включить запись", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         ll_activition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent(getActivity(), ActivationActivity.class);
-               startActivity(intent);
+                Intent intent = new Intent(getActivity(), ActivationActivity.class);
+                startActivity(intent);
             }
         });
         return v;
