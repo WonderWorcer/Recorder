@@ -79,7 +79,7 @@ public class rvAnalyzeRecords extends RecyclerView.Adapter<rvAnalyzeRecords.View
         ArrayList<words> list = mDataset.get(position).getListOfWords();
 
         for (int i = 0; i < list.size() - 1; i++) {
-            for (int j = 1; j < list.size(); j++)
+            for (int j = i + 1; j < list.size(); j++)
                 if (list.get(i).getWord().equals(list.get(j).getWord())) {
                     list.remove(j);
                     j--;
@@ -114,13 +114,6 @@ public class rvAnalyzeRecords extends RecyclerView.Adapter<rvAnalyzeRecords.View
                 value.setTextColor(context.getResources().getColor(R.color.purple));
             else if (list.get(i).getFilterName().equals("userDictionaryWords"))
                 value.setTextColor(context.getResources().getColor(R.color.yellow));
-/*
-            if (list.get(i).getPriority() > 10 && list.get(i).getPriority() < 15) {
-                value.setTextColor(context.getResources().getColor(R.color.colorAccent));
-            } else {
-                value.setTextColor(context.getResources().getColor(R.color.ItemTint));
-            }
-*/
 
             value.setTextSize(16);
             value.setText(list.get(i).getWord() + " --> " + list.get(i).getPriority().toString());

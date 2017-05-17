@@ -65,7 +65,8 @@ public class fragmentRecords extends Fragment {
 
         numberInformation = new NumberInformation();
         Cursor c = db.query(dbHelper.TABLE_RECORDS,
-                new String[]{dbHelper.PHONE_NUMBER, dbHelper.SEED, dbHelper.KEY_ID, dbHelper.CALLTIME, dbHelper.CALLDATE},
+                new String[]{dbHelper.PHONE_NUMBER, dbHelper.SEED, dbHelper.KEY_ID,
+                        dbHelper.CALLTIME, dbHelper.CALLDATE, dbHelper.RECORD_PATH},
                 null, null, null, null, null);
         // ставим позицию курсора на первую строку выборки
         // если в выборке нет строк, вернется false
@@ -76,6 +77,7 @@ public class fragmentRecords extends Fragment {
             int idColIndex = c.getColumnIndex(dbHelper.KEY_ID);
             int callTimeColIndex = c.getColumnIndex(dbHelper.CALLTIME);
             int callDateColIndex = c.getColumnIndex(dbHelper.CALLDATE);
+            int pathColIndex = c.getColumnIndex(dbHelper.RECORD_PATH);
             do {
                 // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmmss");
 
@@ -92,6 +94,7 @@ public class fragmentRecords extends Fragment {
                 item.setTime(c.getString(seedColIndex));
                 item.set_id(c.getInt(idColIndex));
                 item.setTime_call(c.getString(callTimeColIndex));
+                item.setPath(c.getString(pathColIndex));
                 list.add(item);
 
                 // переход на следующую строку

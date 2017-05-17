@@ -90,12 +90,16 @@ public class fragmentWords extends Fragment {
                                         // edit text
                                         ContentValues contentValues = new ContentValues();
                                         contentValues.put(dbHelper.KEY_WORD, inputWord.getText().toString());
-                                        if (Integer.parseInt(inputPrioritet.getText().toString()) > 10)
-                                            contentValues.put(dbHelper.VALUE_WORD, 10);
-                                        else
-                                            contentValues.put(dbHelper.VALUE_WORD, Integer.parseInt(inputPrioritet.getText().toString()));
+                                        try {
+                                            if (Integer.parseInt(inputPrioritet.getText().toString()) > 10)
+                                                contentValues.put(dbHelper.VALUE_WORD, 10);
+                                            else
+                                                contentValues.put(dbHelper.VALUE_WORD, Integer.parseInt(inputPrioritet.getText().toString()));
 
                                         database.insert(dbHelper.TABLE_USER_DICTIONARY_WORDS, null, contentValues);
+                                        } catch (NumberFormatException ex) {
+                                            Toast.makeText(getActivity(), "Необходимо ввести число", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 })
                         .setNegativeButton("Cancel",

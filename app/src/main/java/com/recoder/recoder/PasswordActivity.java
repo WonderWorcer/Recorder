@@ -71,7 +71,7 @@ public class PasswordActivity extends AppCompatActivity {
                     tv_pwd.setText("Повторите пароль");
                 } else if (PrefsHelper.readPrefBool(App.getContext(), App.PREF_DELETE_AFTER_10_ATTEMPT)) {
                     failedCount++;
-                    tv_pwd.setText(Integer.toString(failedCount) + "Неправильный попыток");
+                    tv_pwd.setText(Integer.toString(failedCount) + "Неправильных попыток");
                     if (failedCount == 10)
                         db.delete(dbHelper.TABLE_RECORDS, null, null);
                 } else

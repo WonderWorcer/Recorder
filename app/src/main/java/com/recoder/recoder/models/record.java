@@ -8,6 +8,16 @@ public class record {
     private String picture;
     private String number;
     private String time;
+    private String path;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     private boolean ishod = false;
     private String time_call;
     private int _id;

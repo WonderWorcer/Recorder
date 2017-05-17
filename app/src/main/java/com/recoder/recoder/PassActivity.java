@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.recoder.recoder.Helper.PrefsHelper;
@@ -15,6 +16,7 @@ public class PassActivity extends AppCompatActivity {
     Toolbar toolbar;
     CheckBox onOffPassword;
     CheckBox deleteAll;
+    LinearLayout llChangePass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +29,10 @@ public class PassActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
+        llChangePass = (LinearLayout) findViewById(R.id.llChangePass);
         onOffPassword = (CheckBox) findViewById(R.id.onOffPassword);
+        if (!PrefsHelper.readPrefBool(App.getContext(), App.PREF_CHANGE_PASSWORD))
+            llChangePass.setEnabled(false);
         deleteAll = (CheckBox) findViewById(R.id.deleteAll);
         if (PrefsHelper.readPrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE)) {
             onOffPassword.setChecked(true);
@@ -51,6 +55,7 @@ public class PassActivity extends AppCompatActivity {
                     PrefsHelper.writePrefString(App.getContext(), App.PREF_PASSWORD, null);
                     PrefsHelper.writePrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE, false);
                     Toast.makeText(PassActivity.this, "Выключил пароль", Toast.LENGTH_SHORT).show();
+                    PrefsHelper.writePrefBool(App.getContext(), App.PREF_CHANGE_PASSWORD, false);
                 }
             }
         });

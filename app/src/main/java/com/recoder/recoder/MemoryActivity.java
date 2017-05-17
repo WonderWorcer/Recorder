@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.Helper.PrefsHelper;
+import com.recoder.recoder.Tools.FileWorker;
 
 public class MemoryActivity extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class MemoryActivity extends AppCompatActivity {
 
     DBHelper dbHelper = new DBHelper(App.getContext());
     SQLiteDatabase db = dbHelper.getWritableDatabase();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +40,10 @@ public class MemoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Button button = (Button) findViewById(R.id.delete_after);
-        //button.setText(PrefsHelper.readPrefInt(App.getContext(),PREF_AUTO_DELETE));
-        button.setText("fd");
+        if (PrefsHelper.readPrefInt(App.getContext(), PREF_AUTO_DELETE) > 0)
+            button.setText(Integer.toString(PrefsHelper.readPrefInt(App.getContext(), PREF_AUTO_DELETE)));
+        else
+            button.setText("");
         Cursor cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID}, null, null, null, null, null);
         TextView countRecord = (TextView) findViewById(R.id.count_records);
         countRecord.setText(Integer.toString(cursor.getCount()));
@@ -93,6 +97,8 @@ public class MemoryActivity extends AppCompatActivity {
         findViewById(R.id.deleteNow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FileWorker fileWorker = new FileWorker();
+                fileWorker.deleteAllFiles();
                 db.delete(dbHelper.TABLE_RECORDS, null, null);
                 Toast.makeText(MemoryActivity.this, "Записи успешно удалены", Toast.LENGTH_SHORT).show();
             }
@@ -122,10 +128,12 @@ public class MemoryActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int id) {
                                         // get user input and set it to result
                                         // edit text
-
-                                        PrefsHelper.writePrefInt(App.getContext(), PREF_AUTO_DELETE, Integer.parseInt(input.getText().toString()));
-                                        Toast.makeText(MemoryActivity.this, "Изменения сохранены", Toast.LENGTH_SHORT).show();
-
+                                        try {
+                                            PrefsHelper.writePrefInt(App.getContext(), PREF_AUTO_DELETE, Integer.parseInt(input.getText().toString()));
+                                            Toast.makeText(MemoryActivity.this, "Изменения сохранены", Toast.LENGTH_SHORT).show();
+                                        } catch (NumberFormatException ex) {
+                                            Toast.makeText(MemoryActivity.this, "Необходимо ввести число", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 })
                         .setNegativeButton("Cancel",

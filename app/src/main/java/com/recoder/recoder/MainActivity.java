@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         App.setCallRecord(callRecord);
         callRecord.startCallRecordService();
-        //   PrefsHelper.writePrefBool(this, App.PREF_ISRECORDING, false);
         if (PrefsHelper.readPrefBool(this, App.PREF_ISRECORDING)) {
             callRecord.startCallReceiver();
             PrefsHelper.writePrefBool(this, App.PREF_ISRECORDING, true);
         }
+        PrefsHelper.writePrefBool(this, App.PREF_CHANGE_PASSWORD, false);
         //PrefsHelper.writePrefInt(this, "PrefAutoDelete", 0);
         //PrefsHelper.writePrefString(this, App.PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
         App.setContext(this);
@@ -78,15 +78,42 @@ public class MainActivity extends AppCompatActivity {
         PrefsHelper.writePrefInt(this, App.PREF_ANALIZED_FILES, cursor.getCount());
         cursor.close();
 
-        //PrefsHelper.writePrefInt(this, App.PREF_ALL_FILES, 0);
-        //PrefsHelper.writePrefInt(this, App.PREF_ANALIZED_FILES, 0);
-        //PrefsHelper.writePrefInt(this, DBHelper.PROFANITY_FILTER, 0);
-        //PrefsHelper.writePrefInt(this, DBHelper.USER_DICTIONARY_FILTER, 0);
-        //PrefsHelper.writePrefInt(this, DBHelper.THEFT_FILTER, 0);
-        //PrefsHelper.writePrefInt(this, DBHelper.DRAG_FILTER, 0);
-        //PrefsHelper.writePrefInt(this, DBHelper.EXTREMIST_FILTER, 0);
-        //PrefsHelper.writePrefInt(this, DBHelper.STATE_SECRET_FILTER, 0);
-        //PrefsHelper.writePrefInt(this, DBHelper.BANK_SECRET_FILTER, 0);
+        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
+                dbHelper.EXTREMIST_FILTER + "> ?", new String[]{"0"}, null, null, null);
+        PrefsHelper.writePrefInt(this, DBHelper.EXTREMIST_FILTER, cursor.getCount());
+        cursor.close();
+
+        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
+                dbHelper.DRAG_FILTER + "> ?", new String[]{"0"}, null, null, null);
+        PrefsHelper.writePrefInt(this, DBHelper.DRAG_FILTER, cursor.getCount());
+        cursor.close();
+
+        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
+                dbHelper.PROFANITY_FILTER + "> ?", new String[]{"0"}, null, null, null);
+        PrefsHelper.writePrefInt(this, DBHelper.PROFANITY_FILTER, cursor.getCount());
+        cursor.close();
+
+        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
+                dbHelper.STATE_SECRET_FILTER + "> ?", new String[]{"0"}, null, null, null);
+        PrefsHelper.writePrefInt(this, DBHelper.STATE_SECRET_FILTER, cursor.getCount());
+        cursor.close();
+
+        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
+                dbHelper.THEFT_FILTER + "> ?", new String[]{"0"}, null, null, null);
+        PrefsHelper.writePrefInt(this, DBHelper.THEFT_FILTER, cursor.getCount());
+        cursor.close();
+
+        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
+                dbHelper.BANK_SECRET_FILTER + "> ?", new String[]{"0"}, null, null, null);
+        PrefsHelper.writePrefInt(this, DBHelper.BANK_SECRET_FILTER, cursor.getCount());
+        cursor.close();
+
+        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
+                dbHelper.USER_DICTIONARY_FILTER + "> ?", new String[]{"0"}, null, null, null);
+        PrefsHelper.writePrefInt(this, DBHelper.USER_DICTIONARY_FILTER, cursor.getCount());
+        cursor.close();
+
+
 
         //PrefsHelper.writePrefBool(this, App.PREF_AUTOFILLBASE, true);
         if (PrefsHelper.readPrefBool(this, App.PREF_AUTOFILLBASE)) {
@@ -102,8 +129,9 @@ public class MainActivity extends AppCompatActivity {
 
         ThreadsApp threadsApp = new ThreadsApp();
         threadsApp.threadController();
-        PrefsHelper.writePrefBool(App.getContext(), App.PREF_DELETE_AFTER_10_ATTEMPT, false);
+        //PrefsHelper.writePrefBool(App.getContext(), App.PREF_DELETE_AFTER_10_ATTEMPT, false);
         if (PrefsHelper.readPrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE)) {
+            PrefsHelper.writePrefBool(App.getContext(), App.PREF_CHANGE_PASSWORD, true);
             Intent intent = new Intent(App.getContext(), PasswordActivity.class);
             startActivity(intent);
         }

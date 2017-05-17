@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.recoder.recoder.App;
 import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.R;
+import com.recoder.recoder.Tools.FileWorker;
 import com.recoder.recoder.models.record;
 
 import java.io.File;
@@ -137,10 +138,10 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
                         Toast.makeText(context, "Изменить элемент " + Integer.toString(position) , Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.delete: {
-
+                        FileWorker fileWorker = new FileWorker();
+                        fileWorker.deleteSelectedFile(mDataset.get(position).getPath());
                         db.delete(dbHelper.TABLE_RECORDS, "_id = " + mDataset.get(position).get_id(), null);
                         Toast.makeText(context, "Запись удалена", Toast.LENGTH_SHORT).show();
-                        
                         break;
                     }
                     default:
