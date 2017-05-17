@@ -85,11 +85,13 @@ public class fragmentMainPage extends Fragment {
             @Override
             public void onClick(View v) {
                 if (onOffRecord.isChecked()) {
+                    onOffRecord.setText("Запись включена");
                     PrefsHelper.writePrefBool(App.getContext(), App.PREF_ISRECORDING, true);
                     App.getCallRecord().startCallReceiver();
                 } else {
                     PrefsHelper.writePrefBool(App.getContext(), App.PREF_ISRECORDING, false);
                     App.getCallRecord().stopCallReceiver();
+                    onOffRecord.setText("Запись выключена");
                 }
             }
 

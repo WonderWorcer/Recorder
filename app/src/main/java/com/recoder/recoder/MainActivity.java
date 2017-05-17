@@ -2,6 +2,8 @@ package com.recoder.recoder;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
@@ -64,15 +66,27 @@ public class MainActivity extends AppCompatActivity {
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
         selectDrawerItem(nvDrawer.getMenu().getItem(0));
-        PrefsHelper.writePrefInt(this, App.PREF_ALL_FILES, 0);
-        PrefsHelper.writePrefInt(this, App.PREF_ANALIZED_FILES, 0);
-        PrefsHelper.writePrefInt(this, DBHelper.PROFANITY_FILTER, 0);
-        PrefsHelper.writePrefInt(this, DBHelper.USER_DICTIONARY_FILTER, 0);
-        PrefsHelper.writePrefInt(this, DBHelper.THEFT_FILTER, 0);
-        PrefsHelper.writePrefInt(this, DBHelper.DRAG_FILTER, 0);
-        PrefsHelper.writePrefInt(this, DBHelper.EXTREMIST_FILTER, 0);
-        PrefsHelper.writePrefInt(this, DBHelper.STATE_SECRET_FILTER, 0);
-        PrefsHelper.writePrefInt(this, DBHelper.BANK_SECRET_FILTER, 0);
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Cursor cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID}, null, null, null, null, null);
+        PrefsHelper.writePrefInt(this, App.PREF_ALL_FILES, cursor.getCount());
+        cursor.close();
+
+        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
+                dbHelper.RECORD_STATUS + "= ?", new String[]{"Checked"}, null, null, null);
+        PrefsHelper.writePrefInt(this, App.PREF_ANALIZED_FILES, cursor.getCount());
+        cursor.close();
+
+        //PrefsHelper.writePrefInt(this, App.PREF_ALL_FILES, 0);
+        //PrefsHelper.writePrefInt(this, App.PREF_ANALIZED_FILES, 0);
+        //PrefsHelper.writePrefInt(this, DBHelper.PROFANITY_FILTER, 0);
+        //PrefsHelper.writePrefInt(this, DBHelper.USER_DICTIONARY_FILTER, 0);
+        //PrefsHelper.writePrefInt(this, DBHelper.THEFT_FILTER, 0);
+        //PrefsHelper.writePrefInt(this, DBHelper.DRAG_FILTER, 0);
+        //PrefsHelper.writePrefInt(this, DBHelper.EXTREMIST_FILTER, 0);
+        //PrefsHelper.writePrefInt(this, DBHelper.STATE_SECRET_FILTER, 0);
+        //PrefsHelper.writePrefInt(this, DBHelper.BANK_SECRET_FILTER, 0);
 
         //PrefsHelper.writePrefBool(this, App.PREF_AUTOFILLBASE, true);
         if (PrefsHelper.readPrefBool(this, App.PREF_AUTOFILLBASE)) {

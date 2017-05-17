@@ -43,7 +43,7 @@ public class MemoryActivity extends AppCompatActivity {
         Cursor cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID}, null, null, null, null, null);
         TextView countRecord = (TextView) findViewById(R.id.count_records);
         countRecord.setText(Integer.toString(cursor.getCount()));
-
+        cursor.close();
         findViewById(R.id.recordDirectory).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

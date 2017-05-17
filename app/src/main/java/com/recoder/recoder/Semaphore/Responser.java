@@ -46,10 +46,11 @@ public class Responser extends Thread {
 
                     int recordPathColIndex = cursor.getColumnIndex(dbHelper.RECORD_PATH);
                     int idColIndex = cursor.getColumnIndex(dbHelper.KEY_ID);
+                    sem.acquire();
                     do {
 
                         //Запрашиваем у семафора разрешение на выполнение
-                        sem.acquire();
+
                         try {
                             File file = new File(cursor.getString(recordPathColIndex));
                             GoogleResponse response = recognizer.getRecognizedDataForAmr(file);
@@ -58,7 +59,7 @@ public class Responser extends Thread {
                                 responses.add(s);
                             }
                             SearchSubString sss = new SearchSubString();
-                            for (int i = 0; i < responses.size(); i++) {
+                            for (int i = 1; i < responses.size(); i++) {
                                 //todo check all files
                                 finalyResult[i] = sss.result(responses.get(i), cursor.getString(idColIndex));
                             }
@@ -87,7 +88,7 @@ public class Responser extends Thread {
                             db.update(dbHelper.TABLE_RECORDS, contentValues, "_id = ?", new String[]{cursor.getString(idColIndex)});
 
 
-                            sem.release();
+                            //sem.release();
 
                         } catch (Exception ex) {
                             ex.printStackTrace();

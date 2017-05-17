@@ -23,8 +23,9 @@ public class SearchSubString {
 
             int keyWordColIndex = c.getColumnIndex(dbHelper.KEY_WORD);
             int valueWordColIndex = c.getColumnIndex(dbHelper.VALUE_WORD);
-            do {
 
+            do {
+                String s = c.getString(keyWordColIndex);
                 if (response.contains(c.getString(keyWordColIndex))) {
                     result += c.getInt(valueWordColIndex);
                     ContentValues contentValues = new ContentValues();

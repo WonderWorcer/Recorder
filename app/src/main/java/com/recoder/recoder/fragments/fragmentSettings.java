@@ -24,7 +24,6 @@ import com.recoder.recoder.R;
 public class fragmentSettings extends Fragment {
 
     Toolbar toolbar;
-    LinearLayout ll_uved;
     LinearLayout ll_mem;
     LinearLayout ll_pass;
     LinearLayout ll_default;
@@ -40,7 +39,6 @@ public class fragmentSettings extends Fragment {
         ll_default = (LinearLayout) v.findViewById(R.id.ll_default);
         ll_mem = (LinearLayout) v.findViewById(R.id.ll_mem);
         ll_pass = (LinearLayout) v.findViewById(R.id.ll_pass);
-        ll_uved = (LinearLayout) v.findViewById(R.id.ll_uved);
         ll_activition = (LinearLayout) v.findViewById(R.id.ll_activation);
 
         ((MainActivity) getActivity()).setSupportActionBar(toolbar);
@@ -74,12 +72,6 @@ public class fragmentSettings extends Fragment {
             }
         });
 
-        ll_uved.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "нажал настройки уведомления", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         ll_pass.setOnClickListener(new View.OnClickListener() {
             @Override

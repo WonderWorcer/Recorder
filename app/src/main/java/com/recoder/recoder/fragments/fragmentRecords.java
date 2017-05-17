@@ -18,6 +18,7 @@ import com.recoder.recoder.App;
 import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.MainActivity;
 import com.recoder.recoder.R;
+import com.recoder.recoder.Tools.NumberInformation;
 import com.recoder.recoder.adapters.rvRecords;
 import com.recoder.recoder.models.record;
 
@@ -30,7 +31,7 @@ public class fragmentRecords extends Fragment {
 
     Toolbar toolbar;
     Context context = App.getContext();
-
+    NumberInformation numberInformation;
     DBHelper dbHelper = new DBHelper(context);
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -62,7 +63,7 @@ public class fragmentRecords extends Fragment {
             }
         });
 
-
+        numberInformation = new NumberInformation();
         Cursor c = db.query(dbHelper.TABLE_RECORDS,
                 new String[]{dbHelper.PHONE_NUMBER, dbHelper.SEED, dbHelper.KEY_ID, dbHelper.CALLTIME, dbHelper.CALLDATE},
                 null, null, null, null, null);
@@ -79,8 +80,15 @@ public class fragmentRecords extends Fragment {
                 // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmmss");
 
                 record item = new record();
-                item.setIshod(true);
-                item.setNumber(c.getString(phoneNumberColIndex));
+                if (c.getString(seedColIndex).equals("Исходящий")) {
+                    item.setIshod(true);
+                } else
+                    item.setIshod(false);
+
+                if (numberInformation.getContactName(c.getString(phoneNumberColIndex)) != null)
+                    item.setNumber(numberInformation.getContactName(c.getString(phoneNumberColIndex)));
+                else
+                    item.setNumber(c.getString(phoneNumberColIndex));
                 item.setTime(c.getString(seedColIndex));
                 item.set_id(c.getInt(idColIndex));
                 item.setTime_call(c.getString(callTimeColIndex));
