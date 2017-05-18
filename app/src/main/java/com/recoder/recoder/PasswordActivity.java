@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.Helper.PrefsHelper;
+import com.recoder.recoder.Tools.FileWorker;
 import com.recoder.recoder.view.PwdGestureView;
 
 public class PasswordActivity extends AppCompatActivity {
@@ -72,8 +73,12 @@ public class PasswordActivity extends AppCompatActivity {
                 } else if (PrefsHelper.readPrefBool(App.getContext(), App.PREF_DELETE_AFTER_10_ATTEMPT)) {
                     failedCount++;
                     tv_pwd.setText(Integer.toString(failedCount) + "Неправильных попыток");
-                    if (failedCount == 10)
+                    if (failedCount == 10) {
+                        FileWorker fileWorker = new FileWorker();
+                        fileWorker.deleteAllFiles();
                         db.delete(dbHelper.TABLE_RECORDS, null, null);
+                        db.delete(dbHelper.TABLE_USED_WORDS, null, null);
+                    }
                 } else
                     tv_pwd.setText("Введите правильный пароль");
             }

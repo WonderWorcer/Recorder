@@ -56,6 +56,7 @@ public class ActivationActivity extends AppCompatActivity {
                                         // edit text
                                         PrefsHelper.writePrefString(App.getContext(), App.PREF_API_KEY, input.getText().toString());
                                         Toast.makeText(App.getContext(), "Запись сохранена", Toast.LENGTH_SHORT).show();
+                                        onRestart();
 
                                     }
                                 })

@@ -21,8 +21,7 @@ import com.recoder.recoder.Tools.FileWorker;
 public class MemoryActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    public static final String PREF_DIR_PATH = "PrefDirPath";///<константа для сохранения пути до директории
-    public static final String PREF_AUTO_DELETE = "PrefAutoDelete";///<константа для сохранения времени жизни файлов
+
 
     DBHelper dbHelper = new DBHelper(App.getContext());
     SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -40,8 +39,8 @@ public class MemoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Button button = (Button) findViewById(R.id.delete_after);
-        if (PrefsHelper.readPrefInt(App.getContext(), PREF_AUTO_DELETE) > 0)
-            button.setText(Integer.toString(PrefsHelper.readPrefInt(App.getContext(), PREF_AUTO_DELETE)));
+        if (PrefsHelper.readPrefInt(App.getContext(), App.PREF_AUTO_DELETE) > 0)
+            button.setText(Integer.toString(PrefsHelper.readPrefInt(App.getContext(), App.PREF_AUTO_DELETE)));
         else
             button.setText("");
         Cursor cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID}, null, null, null, null, null);
@@ -63,7 +62,7 @@ public class MemoryActivity extends AppCompatActivity {
                 final EditText input = (EditText) promptsView
                         .findViewById(R.id.dialog_input);
                 dialogQuestion.setText("Введите директорию для записи");
-                input.setText(PrefsHelper.readPrefString(App.getContext(), PREF_DIR_PATH));
+                input.setText(PrefsHelper.readPrefString(App.getContext(), App.PREF_DIR_PATH));
                 // set dialog message
                 alertDialogBuilder
                         .setCancelable(false)
@@ -73,7 +72,7 @@ public class MemoryActivity extends AppCompatActivity {
                                         // get user input and set it to result
                                         // edit text
 
-                                        PrefsHelper.writePrefString(App.getContext(), PREF_DIR_PATH, input.getText().toString());
+                                        PrefsHelper.writePrefString(App.getContext(), App.PREF_DIR_PATH, input.getText().toString());
 
                                         Toast.makeText(MemoryActivity.this, "Директория изменена", Toast.LENGTH_SHORT).show();
 
@@ -99,6 +98,7 @@ public class MemoryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FileWorker fileWorker = new FileWorker();
                 fileWorker.deleteAllFiles();
+                db.delete(dbHelper.TABLE_USED_WORDS, null, null);
                 db.delete(dbHelper.TABLE_RECORDS, null, null);
                 Toast.makeText(MemoryActivity.this, "Записи успешно удалены", Toast.LENGTH_SHORT).show();
             }
@@ -129,8 +129,8 @@ public class MemoryActivity extends AppCompatActivity {
                                         // get user input and set it to result
                                         // edit text
                                         try {
-                                            PrefsHelper.writePrefInt(App.getContext(), PREF_AUTO_DELETE, Integer.parseInt(input.getText().toString()));
-                                            Toast.makeText(MemoryActivity.this, "Изменения сохранены", Toast.LENGTH_SHORT).show();
+                                            PrefsHelper.writePrefInt(App.getContext(), App.PREF_AUTO_DELETE, Integer.parseInt(input.getText().toString()));
+                                            Toast.makeText(MemoryActivity.this, "Изменения будут применены после перезапуска программы", Toast.LENGTH_SHORT).show();
                                         } catch (NumberFormatException ex) {
                                             Toast.makeText(MemoryActivity.this, "Необходимо ввести число", Toast.LENGTH_SHORT).show();
                                         }

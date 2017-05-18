@@ -97,6 +97,7 @@ public class fragmentWords extends Fragment {
                                                 contentValues.put(dbHelper.VALUE_WORD, Integer.parseInt(inputPrioritet.getText().toString()));
 
                                         database.insert(dbHelper.TABLE_USER_DICTIONARY_WORDS, null, contentValues);
+
                                         } catch (NumberFormatException ex) {
                                             Toast.makeText(getActivity(), "Необходимо ввести число", Toast.LENGTH_SHORT).show();
                                         }

@@ -20,6 +20,7 @@ import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.Helper.FillBase;
 import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.Semaphore.ThreadsApp;
+import com.recoder.recoder.Tools.FileWorker;
 import com.recoder.recoder.fragments.fragmentAnalyzeRecords;
 import com.recoder.recoder.fragments.fragmentAnalyzeWords;
 import com.recoder.recoder.fragments.fragmentMainPage;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     public NavigationView nvDrawer;
     CallRecord callRecord;
-
+    FileWorker fileWorker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         //PrefsHelper.writePrefInt(this, "PrefAutoDelete", 0);
         //PrefsHelper.writePrefString(this, App.PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
         App.setContext(this);
+        fileWorker = new FileWorker();
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
@@ -114,13 +116,14 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
 
 
-
-        //PrefsHelper.writePrefBool(this, App.PREF_AUTOFILLBASE, true);
         if (PrefsHelper.readPrefBool(this, App.PREF_AUTOFILLBASE)) {
             FillBase fillBase = new FillBase();
             fillBase.fillAllBase();
             PrefsHelper.writePrefBool(this, App.PREF_AUTOFILLBASE, false);
         }
+
+        if (PrefsHelper.readPrefInt(App.getContext(), App.PREF_AUTO_DELETE) > 0)
+            fileWorker.deleteFilesAfterDateEnd(PrefsHelper.readPrefInt(App.getContext(), App.PREF_AUTO_DELETE));
 
         //Необходимо для обновления базы
         //DBHelper dbHelper = new DBHelper(this);
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
         ThreadsApp threadsApp = new ThreadsApp();
         threadsApp.threadController();
-        //PrefsHelper.writePrefBool(App.getContext(), App.PREF_DELETE_AFTER_10_ATTEMPT, false);
+
         if (PrefsHelper.readPrefBool(App.getContext(), App.PREF_PASSWORD_ACTIVE)) {
             PrefsHelper.writePrefBool(App.getContext(), App.PREF_CHANGE_PASSWORD, true);
             Intent intent = new Intent(App.getContext(), PasswordActivity.class);

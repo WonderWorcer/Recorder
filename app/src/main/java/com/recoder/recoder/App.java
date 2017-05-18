@@ -20,12 +20,14 @@ public class App extends Application {
     public final static String PREF_AUTOFILLBASE = "prefAutoFillBase";
     public final static String PREF_CHANGE_PASSWORD = "prefChangePassword";
     public final static String PREF_DELETE_AFTER_10_ATTEMPT = "prefDeleteAfter10Attempt";
+    public static final String PREF_AUTO_DELETE = "PrefAutoDelete";///<константа для сохранения времени жизни файлов
     public final static String PREF_API_KEY = "PrefApiKey";
+    public static final String PREF_DIR_PATH = "PrefDirPath";///<константа для сохранения пути до директории
     public final static String PREF_ALL_FILES = "prefAllFiles";
     public final static String PREF_ANALIZED_FILES = "prefAnalizedFiles";
     public final static String PREF_ISRECORDING = "prefIsRecording";
     public static final String GOOGLE_RECOGNIZER_URL = "http://www.google.com/speech-api/v2/recognize?client=chromium&output=json";
-
+    public static final String PREF_DEFAULT_FOLDER = "CallRecord";
     public static CallRecord getCallRecord() {
         return callRecord;
     }

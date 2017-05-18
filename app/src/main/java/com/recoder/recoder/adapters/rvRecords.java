@@ -44,7 +44,7 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
         public ImageView vhod, ishod;
         public LinearLayout ll;
         public ImageButton ib;
-
+        public de.hdodenhof.circleimageview.CircleImageView profile_image;
 
         public ViewHolder(View v) {
             super(v);
@@ -55,6 +55,7 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
             vhod = (ImageView) v.findViewById(R.id.vhod);
             ishod = (ImageView) v.findViewById(R.id.ishod);
             ib = (ImageButton) v.findViewById(R.id.iv_dop);
+            profile_image = (de.hdodenhof.circleimageview.CircleImageView) v.findViewById(R.id.profile_image);
         }
     }
 
@@ -67,7 +68,7 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
     // Создает новые views (вызывается layout manager-ом)
     @Override
     public rvRecords.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                       int viewType) {
+                                                   int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.rv_record_item, parent, false);
@@ -87,6 +88,7 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
         holder.number.setText(mDataset.get(position).getNumber());
         holder.time.setText(mDataset.get(position).getTime());
         holder.time_call.setText(mDataset.get(position).getTime_call());
+        holder.profile_image.setImageBitmap(mDataset.get(position).getPicture());
 
         if (mDataset.get(position).ishod()) {
             holder.vhod.setVisibility(View.GONE);
@@ -116,8 +118,6 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
                     App.getContext().startActivity(intent);
                 }
 
-
-                Toast.makeText(context, "Клик по записи!!!! ёё" , Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -135,11 +135,12 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.edit:
-                        Toast.makeText(context, "Изменить элемент " + Integer.toString(position) , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Изменить элемент " + Integer.toString(position), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.delete: {
                         FileWorker fileWorker = new FileWorker();
                         fileWorker.deleteSelectedFile(mDataset.get(position).getPath());
+                        db.delete(dbHelper.TABLE_USED_WORDS, dbHelper.WORDS_ON_RECORD + " = " + mDataset.get(position).get_id(), null);
                         db.delete(dbHelper.TABLE_RECORDS, "_id = " + mDataset.get(position).get_id(), null);
                         Toast.makeText(context, "Запись удалена", Toast.LENGTH_SHORT).show();
                         break;
@@ -157,8 +158,6 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
     public int getItemCount() {
         return mDataset.size();
     }
-
-
 
 
 }

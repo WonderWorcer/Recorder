@@ -91,7 +91,8 @@ public class fragmentRecords extends Fragment {
                     item.setNumber(numberInformation.getContactName(c.getString(phoneNumberColIndex)));
                 else
                     item.setNumber(c.getString(phoneNumberColIndex));
-                item.setTime(c.getString(seedColIndex));
+                item.setTime(numberInformation.dateOfRecord(c.getString(callDateColIndex)));
+                item.setPicture(numberInformation.retrieveContactPhoto(c.getString(phoneNumberColIndex)));
                 item.set_id(c.getInt(idColIndex));
                 item.setTime_call(c.getString(callTimeColIndex));
                 item.setPath(c.getString(pathColIndex));
@@ -103,25 +104,6 @@ public class fragmentRecords extends Fragment {
         }
 
         c.close();
-/*
-
-        item.setIshod(true);
-        item.setNumber("+7 122 666 22 45");
-        item.setTime("18:25, 7 января");
-        item.setTime_call("00:45");
-
-        for (int i = 0; i <  5 ; i++) {
-            list.add(item);
-        }
-        item = new record();
-        item.setNumber("+7 929 322 77 26");
-        item.setTime("12:25, 1 января");
-        item.setTime_call("00:35");
-
-        for (int i = 0; i <  5 ; i++) {
-            list.add(item);
-        }
-*/
 
         try {
             mLayoutManager = new LinearLayoutManager(getActivity());

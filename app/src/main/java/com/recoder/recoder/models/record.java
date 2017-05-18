@@ -1,11 +1,14 @@
 package com.recoder.recoder.models;
 
 
+import android.graphics.Bitmap;
+
+
 /**
  * Created by WonderWorcer on 29.04.2017.
  */
 public class record {
-    private String picture;
+    private Bitmap picture;
     private String number;
     private String time;
     private String path;
@@ -31,12 +34,11 @@ public class record {
     }
 
 
-
-    public String getPicture() {
+    public Bitmap getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(Bitmap picture) {
         this.picture = picture;
     }
 
