@@ -17,6 +17,7 @@ import com.recoder.recoder.App;
 import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.MainActivity;
 import com.recoder.recoder.R;
+import com.recoder.recoder.Tools.NumberInformation;
 import com.recoder.recoder.adapters.rvAnalyzeRecords;
 import com.recoder.recoder.models.analyzeRecords;
 import com.recoder.recoder.models.words;
@@ -58,7 +59,7 @@ public class fragmentAnalyzeRecords extends Fragment {
             }
         });
 
-
+        NumberInformation numberInformation = new NumberInformation();
         Cursor c = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.PHONE_NUMBER, dbHelper.KEY_ID}, null, null, null, null, null);
         // ставим позицию курсора на первую строку выборки
         // если в выборке нет строк, вернется false
@@ -70,7 +71,12 @@ public class fragmentAnalyzeRecords extends Fragment {
             do {
                 analyzeRecords item = new analyzeRecords();
                 ArrayList<words> liist = new ArrayList<>();
-                item.setName(c.getString(phoneNumberColIndex));
+                if (numberInformation.getContactName(c.getString(phoneNumberColIndex)) != null)
+                    item.setName(numberInformation.getContactName(c.getString(phoneNumberColIndex)));
+                else
+                    item.setName(c.getString(phoneNumberColIndex));
+
+                //item.setName(c.getString(phoneNumberColIndex));
 
                 Cursor cursor = db.query(dbHelper.TABLE_USED_WORDS,
                         new String[]{dbHelper.KEY_WORD, dbHelper.VALUE_WORD, dbHelper.FILTER_NAME},
@@ -101,29 +107,6 @@ public class fragmentAnalyzeRecords extends Fragment {
 
 
 
-        /*
-        analyzeRecords item = new analyzeRecords();
-        item.setName("Запись");
-        item.setPriority(15);
-
-
-
-        ArrayList<words> liist = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            words mm = new words();
-            mm.setWord("Слово");
-            Random r = new Random();
-            int i1 = r.nextInt(15 - 8) + 8;
-            mm.setPriority(i1);
-            liist.add(mm);
-        }
-
-        item.setListOfWords(liist);
-
-        for (int i = 0; i <  5 ; i++) {
-            list.add(item);
-        }
-*/
         try {
             mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);

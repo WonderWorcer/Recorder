@@ -4,6 +4,15 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 30 апреля 2017
+ * <p>
+ * Класс для работы с базой данных SQLite,
+ * создание и удаления таблиц из базы данных.
+ */
 public class DBHelper extends SQLiteOpenHelper {
 
 
@@ -45,6 +54,11 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Метод, создающий таблицы в базе данных
+     *
+     * @param db - база данных SQLite
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_DRAG_WORDS + "(" + KEY_ID +
@@ -81,6 +95,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 + USER_DICTIONARY_FILTER + " integer," + BANK_SECRET_FILTER + " integer" + ")");
     }
 
+    /**
+     * Метод, обновляющий базу данных SQLite, удаляя старые таблицы,
+     * если они есть и вызывает метод, создания onCreate(db)
+     * @param db база данных SQLite
+     * @param oldVersion старая версия базы данных (По умолчанию версия 1.0)
+     * @param newVersion новая версия базы данных
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists " + TABLE_DRAG_WORDS);

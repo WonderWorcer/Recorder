@@ -34,7 +34,7 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
      * Событие, которое вызывается intent-ом при принятии вызова
      * или звонке
      * @param context Текущий контекст приложения
-     * @param intent
+     * @param intent Текущий интент приложения
      */
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -48,7 +48,7 @@ public class AMRSplit {
      *
      * @param filename amr - файл
      * @throws FileNotFoundException Исключение при отсутствии файла
-     * @throws IOException
+     * @throws IOException Исключение при создании файла, который уже существует
      */
     public void split(File filename) throws FileNotFoundException, IOException {
 
@@ -198,8 +198,10 @@ public class AMRSplit {
             db.insert(dbHelper.TABLE_RECORDS, null, newValues);
         }
 
+        inputFile.delete();
         // Закрываем файл
         in.close();
+
     }
 
 }

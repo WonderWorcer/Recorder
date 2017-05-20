@@ -47,6 +47,18 @@ public class MemoryActivity extends AppCompatActivity {
         TextView countRecord = (TextView) findViewById(R.id.count_records);
         countRecord.setText(Integer.toString(cursor.getCount()));
         cursor.close();
+        FileWorker fileWorker = new FileWorker();
+        TextView countMemory = (TextView) findViewById(R.id.memry_used);
+        Long memoryUsed = fileWorker.memoryUsed();
+        if (memoryUsed > 1024 * 1024) {
+            memoryUsed /= 1024 * 1024;
+            countMemory.setText(Long.toString(memoryUsed) + " MB");
+        }
+        if (memoryUsed > 1024) {
+            memoryUsed /= 1024;
+            countMemory.setText(Long.toString(memoryUsed) + " KB");
+        } else
+            countMemory.setText(Long.toString(memoryUsed) + " B");
         findViewById(R.id.recordDirectory).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +112,7 @@ public class MemoryActivity extends AppCompatActivity {
                 fileWorker.deleteAllFiles();
                 db.delete(dbHelper.TABLE_USED_WORDS, null, null);
                 db.delete(dbHelper.TABLE_RECORDS, null, null);
+                onRestart();
                 Toast.makeText(MemoryActivity.this, "Записи успешно удалены", Toast.LENGTH_SHORT).show();
             }
         });

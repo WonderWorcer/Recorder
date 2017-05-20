@@ -92,7 +92,7 @@ public class fragmentRecords extends Fragment {
                 else
                     item.setNumber(c.getString(phoneNumberColIndex));
                 item.setTime(numberInformation.dateOfRecord(c.getString(callDateColIndex)));
-                item.setPicture(numberInformation.retrieveContactPhoto(c.getString(phoneNumberColIndex)));
+                //item.setPicture(numberInformation.retrieveContactPhoto(c.getString(phoneNumberColIndex)));
                 item.set_id(c.getInt(idColIndex));
                 item.setTime_call(c.getString(callTimeColIndex));
                 item.setPath(c.getString(pathColIndex));

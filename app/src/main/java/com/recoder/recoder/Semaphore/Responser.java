@@ -18,7 +18,12 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 /**
- * Created by Роман on 07.05.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 17 мая 2017
+ * <p>
+ * Класс, реализующий запуск изолированного потока для отправки аудио-файла на сервер.
  */
 
 public class Responser extends Thread {
@@ -34,6 +39,11 @@ public class Responser extends Thread {
 
     }
 
+    /**
+     * Метод, который по-очередно отправляет аудио-файлы на сервер Gooogle Recognition.
+     * Работает в бесконечном цикле, зацикливается командной sem.acquire();
+     * Цикл автоматически разблокируется при команде sem.release();
+     */
     public void run() {
         while (true) {
             try {

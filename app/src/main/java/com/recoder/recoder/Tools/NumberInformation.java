@@ -15,11 +15,21 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by Роман on 17.05.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 17 мая 2017
+ * <p>
+ * Класс, реализующий работу с книгой контактов
  */
 
 public class NumberInformation {
-
+    /**
+     * Метод, позволяющий идентифицировать имя контакта по номеру телефона
+     *
+     * @param phoneNumber номер телефона
+     * @return имя контакта, соотвествующее номеру телефона
+     */
     public static String getContactName(String phoneNumber) {
         ContentResolver cr = App.getContext().getContentResolver();
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
@@ -82,7 +92,11 @@ public class NumberInformation {
         return photo;
     }
 
-
+    /**
+     * Метод, возвращаемый обработанную дату файла
+     * @param date необработанная дата файла
+     * @return возвращает обработанную дату файла
+     */
     public static String dateOfRecord(String date) {
         String finishDate = "";
         finishDate += Integer.toString(Integer.parseInt(date.substring(8, 10))) + ":" + date.substring(10, 12) + ", ";

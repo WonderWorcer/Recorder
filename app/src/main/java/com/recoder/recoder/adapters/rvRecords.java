@@ -88,7 +88,7 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
         holder.number.setText(mDataset.get(position).getNumber());
         holder.time.setText(mDataset.get(position).getTime());
         holder.time_call.setText(mDataset.get(position).getTime_call());
-        holder.profile_image.setImageBitmap(mDataset.get(position).getPicture());
+        //holder.profile_image.setImageBitmap(mDataset.get(position).getPicture());
 
         if (mDataset.get(position).ishod()) {
             holder.vhod.setVisibility(View.GONE);

@@ -1,7 +1,12 @@
 package com.recoder.recoder.Helper;
 
 /**
- * Created by Роман on 30.03.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 30 апреля 2017
+ * <p>
+ * Класс, реализующий добавление слов и их приоритетов в соответствующие библиотеки
  */
 
 import android.content.ContentValues;
@@ -13,6 +18,13 @@ public class FillBase {
     DBHelper dbHelper = new DBHelper(App.getContext());
     SQLiteDatabase database = dbHelper.getWritableDatabase();
 
+    /**
+     * Метод, добавляющий слово и его приоритет в соответствующую таблицу
+     *
+     * @param table     таблица, в которую необходимо добавить слово
+     * @param word      слово, которое нужно добавить в библиотеку
+     * @param prioritet приоритет слова, которое нужно добавить в библиотеку
+     */
     public void addWordOnBase(String table, String word, int prioritet) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.KEY_WORD, word);
@@ -20,6 +32,9 @@ public class FillBase {
         database.insert(table, null, contentValues);
     }
 
+    /**
+     * Метод, инициализируюзий добавление слов в библиотеки
+     */
     public void fillAllBase() {
         FillExtremistWords();
         FillDragWords();
@@ -29,6 +44,9 @@ public class FillBase {
         FillBankSecretWords();
     }
 
+    /**
+     * Метод, добавляющий слова в библиотеку Экстремистских слов
+     */
     public void FillExtremistWords() {
         database.delete(dbHelper.TABLE_EXTREMIST_WORDS, null, null);
         addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "бомба", 8);
@@ -45,6 +63,9 @@ public class FillBase {
         addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "убийство", 10);
     }
 
+    /**
+     * Метод, добавляющий слова в библиотеку слов, связанных с наркотиками
+     */
     public void FillDragWords() {
 
         database.delete(dbHelper.TABLE_DRAG_WORDS, null, null);
@@ -63,12 +84,18 @@ public class FillBase {
         addWordOnBase(dbHelper.TABLE_DRAG_WORDS, "морфий", 6);
     }
 
+    /**
+     * Метод, добавляющий слова в библиотеку слов, связанных с государственной тайной
+     */
     public void FillStateSecretWords() {
 
         database.delete(dbHelper.TABLE_STATE_SECRET_WORDS, null, null);
         addWordOnBase(dbHelper.TABLE_STATE_SECRET_WORDS, "код ракеты", 7);
     }
 
+    /**
+     * Метод, добавляющий слова в библиотеку слов, связанных с воровством
+     */
     public void FillTheftWords() {
 
         database.delete(dbHelper.TABLE_THEFT_WORDS, null, null);
@@ -82,6 +109,9 @@ public class FillBase {
 
     }
 
+    /**
+     * Метод, добавляющий слова в библиотеку нецензурных слов
+     */
     public void FillProfanityWords() {
 
         database.delete(dbHelper.TABLE_PROFANITY_WORDS, null, null);
@@ -89,6 +119,9 @@ public class FillBase {
 
     }
 
+    /**
+     * Метод, добавляющий слова в библиотеку слов, связанных с банковской тайной
+     */
     public void FillBankSecretWords() {
 
         database.delete(dbHelper.TABLE_BANK_SECRET_WORDS, null, null);

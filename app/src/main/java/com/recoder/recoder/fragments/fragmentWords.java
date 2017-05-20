@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class fragmentWords extends Fragment {
-
+    private static final String TAG = fragmentWords.class.getSimpleName();
     Toolbar toolbar;
     DBHelper dbHelper = new DBHelper(App.getContext());
     SQLiteDatabase database = dbHelper.getWritableDatabase();
@@ -97,6 +97,15 @@ public class fragmentWords extends Fragment {
                                                 contentValues.put(dbHelper.VALUE_WORD, Integer.parseInt(inputPrioritet.getText().toString()));
 
                                         database.insert(dbHelper.TABLE_USER_DICTIONARY_WORDS, null, contentValues);
+
+                                            //Fragment currentFragment = getFragmentManager().findFragmentByTag(TAG);
+                                            //FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
+                                            //fragTransaction.detach(currentFragment);
+                                            //fragTransaction.attach(currentFragment);
+                                            //fragTransaction.commit();
+
+
+
 
                                         } catch (NumberFormatException ex) {
                                             Toast.makeText(getActivity(), "Необходимо ввести число", Toast.LENGTH_SHORT).show();

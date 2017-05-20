@@ -5,11 +5,18 @@ import com.recoder.recoder.App;
 import java.util.concurrent.Semaphore;
 
 /**
- * Created by Роман on 07.05.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 07 мая 2017
+ * <p>
+ * Класс, реализующий инициализацию изолированного потока для отправки аудио-файла на сервер.
  */
 
 public class ThreadsApp {
-
+    /**
+     * Метод, выполняющий инициализацию изолированного потока
+     */
     public void threadController() {
 
         Semaphore sem = new Semaphore(1);

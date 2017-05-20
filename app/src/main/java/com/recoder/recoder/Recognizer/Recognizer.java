@@ -22,11 +22,11 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-/**********************************************************************
- * Класс, который отправляет amr-файл и извлекает распознанный текст
- *
+/********************************************************
+ * Класс, который отправляет amr-файл на сервер
+ * GoogleRecognition и извлекает распознанный текст
  * @author RomanAksenov
- *********************************************************************/
+ ********************************************************/
 public class Recognizer implements IRecognizer {
     //tells Google to auto-detect the language
     public enum Languages {
@@ -250,10 +250,9 @@ public class Recognizer implements IRecognizer {
 
     /**
      * Google запрос для отправки на сервер Google Recognition amr-файла
-     *
      * @param amrFile - amr файл
      * @return Возвращает ответ на запрос
-     * @throws IOException
+     * @throws IOException Исключение при отправке файла, который еще не существует
      */
     public GoogleResponse getRecognizedDataForAmr(File amrFile) throws IOException {
         return getRecognizedDataForAmr(amrFile, 4);
@@ -264,7 +263,7 @@ public class Recognizer implements IRecognizer {
      * @param amrFile  amr файл
      * @param maxResults количество ответов на Google запрос
      * @return Возвращает ответ на запрос
-     * @throws IOException
+     * @throws IOException Исключение при отправке файла, который еще не существует
      */
     public GoogleResponse getRecognizedDataForAmr(File amrFile, int maxResults) throws IOException {
         GoogleResponse googleResponse = getRecognizedDataForAmr(amrFile, maxResults, 8000);
@@ -277,7 +276,7 @@ public class Recognizer implements IRecognizer {
      * @param maxResults количество ответов на Google запрос
      * @param sampleRate частота дискретизации
      * @return Возвращает ответ на запрос
-     * @throws IOException
+     * @throws IOException Исключение при отправке файла, который еще не существует
      */
     public GoogleResponse getRecognizedDataForAmr(File amrFile, int maxResults, int sampleRate) throws IOException {
         String[] response = rawRequest(amrFile, maxResults, sampleRate);
@@ -325,8 +324,8 @@ public class Recognizer implements IRecognizer {
      * @param inputFile amr-файл для запроса
      * @param maxResults количество ответов от Gooogle
      * @param sampleRate частота дискретизации
-     * @return результат запроса
-     * @throws IOException
+     * @return результат запроса в текстовом представлении
+     * @throws IOException Исключение при отправке файла, который еще не существует
      */
     private String[] rawRequest(File inputFile, int maxResults, int sampleRate) throws IOException {
         URL url;

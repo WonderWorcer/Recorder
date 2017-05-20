@@ -8,11 +8,28 @@ import android.database.sqlite.SQLiteDatabase;
 import com.recoder.recoder.App;
 import com.recoder.recoder.Helper.DBHelper;
 
+/**
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 17 мая 2017
+ * <p>
+ * Класс, реализующий поиск в записи по библиотекам
+ */
+
 public class SearchSubString {
     Context context = App.getContext();
     DBHelper dbHelper = new DBHelper(context);
     SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+    /**
+     * Метод, реализующий поиск слов по фильтру
+     *
+     * @param response текстовая интерпритация разговора
+     * @param filter   фильтр (Название библиотеки)
+     * @param _id      уникальный номер записи из база данных
+     * @return Результат проверки по выбранному фильтру
+     */
     public int checkFilter(String response, String filter, String _id) {
         int result = 0;
         String splitFilter[] = filter.split("_");
@@ -43,9 +60,14 @@ public class SearchSubString {
         return result;
     }
 
+    /**
+     * Метод, возвращающий результаты проверки записи по словам из библиотеки
+     * @param response текстовая интерпритация разговора
+     * @param _id - уникальный номер записи из база данных
+     * @return возвращает массив результатов проверки
+     */
     public int[] result(String response, String _id) {
         int result[] = new int[7];
-
         result[0] = checkFilter(response, dbHelper.TABLE_DRAG_WORDS, _id);
         result[1] = checkFilter(response, dbHelper.TABLE_EXTREMIST_WORDS, _id);
         result[2] = checkFilter(response, dbHelper.TABLE_THEFT_WORDS, _id);

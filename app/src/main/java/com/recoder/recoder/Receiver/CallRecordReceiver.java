@@ -48,7 +48,6 @@ public class CallRecordReceiver extends PhoneCallReceiver {
     /**
      * Вызывается при принятии входящего вызова
      * На данный момент не работает
-     *
      * @param ctx        контект приложения
      * @param number     номер телефона
      * @param start      время принятия вызова
@@ -61,7 +60,6 @@ public class CallRecordReceiver extends PhoneCallReceiver {
 
     /**
      * Вызывается при приеме входящего вызова с последующим стартом записи разговора, если такой режим включен
-     *
      * @param ctx        контект приложения
      * @param number     номер телефона
      * @param start      время принятия вызова
@@ -73,7 +71,6 @@ public class CallRecordReceiver extends PhoneCallReceiver {
 
     /**
      * Вызывается после окончания входящего вызова, необходим для остановки записи.
-     *
      * @param ctx        контект приложения
      * @param number     номер телефона
      * @param start      время принятия вызова
@@ -96,7 +93,6 @@ public class CallRecordReceiver extends PhoneCallReceiver {
 
     /**
      * Вызывается при приеме исходящего вызова с последующим стартом записи разговора, если такой режим включен
-     *
      * @param ctx        контект приложения
      * @param number     номер телефона
      * @param start      время принятия вызова
@@ -108,7 +104,6 @@ public class CallRecordReceiver extends PhoneCallReceiver {
 
     /**
      * Вызывается после окончания исходящего вызова, необходим для остановки записи.
-     *
      * @param ctx        контект приложения
      * @param number     номер телефона
      * @param start      время принятия вызова
@@ -146,6 +141,14 @@ public class CallRecordReceiver extends PhoneCallReceiver {
     protected void onRecordingStarted(Context context,  File audioFile) {
     }
 
+    /**
+     * Метод, вызывающийся после завершения разговора,
+     * выполняет разбиение файла на части
+     * если такое необходимо, обновляет изолированный поток семафора
+     *
+     * @param context   текущий контекст приложения
+     * @param audioFile файл, который будет проходить дальнеший анализ
+     */
     protected void onRecordingFinished(Context context,  File audioFile) {
         AMRSplit amrSplit = new AMRSplit(context);
         try {

@@ -22,7 +22,6 @@ import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.Semaphore.ThreadsApp;
 import com.recoder.recoder.Tools.FileWorker;
 import com.recoder.recoder.fragments.fragmentAnalyzeRecords;
-import com.recoder.recoder.fragments.fragmentAnalyzeWords;
 import com.recoder.recoder.fragments.fragmentMainPage;
 import com.recoder.recoder.fragments.fragmentRecords;
 import com.recoder.recoder.fragments.fragmentSettings;
@@ -174,9 +173,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_library_fragment:
                 fragmentClass = fragmentWords.class;
                 break;
-            case R.id.nav_analyze_fragment:
-                fragmentClass = fragmentAnalyzeWords.class;
-                break;
+            //case R.id.nav_analyze_fragment:
+            //fragmentClass = fragmentAnalyzeWords.class;
+            //break;
             case R.id.nav_analyze_zap_fragment:
                 fragmentClass = fragmentAnalyzeRecords.class;
                 break;
