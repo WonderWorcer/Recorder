@@ -11,13 +11,24 @@ import android.widget.Toast;
 
 import com.recoder.recoder.Helper.PrefsHelper;
 
+/**
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс - активити для работы с паролем
+ */
 public class PassActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    CheckBox onOffPassword;
-    CheckBox deleteAll;
-    LinearLayout llChangePass;
+    CheckBox onOffPassword;///<CheckBox, характеризующий включен пароль или нет
+    CheckBox deleteAll;///<CheckBox, характеризующий включена ли функция удаления всех файлов после 10 неверных попыток
+    LinearLayout llChangePass;///< Область для смены пароля
     @Override
+    /**
+     * Инициализация активити
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass);
@@ -59,7 +70,10 @@ public class PassActivity extends AppCompatActivity {
                 }
             }
         });
-
+/**
+ * Событие по нажатию на кнопку включени/выключения пароля
+ * Включает/выключает пароль
+ */
         deleteAll.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -74,7 +88,10 @@ public class PassActivity extends AppCompatActivity {
                 }
             }
         });
-
+/**
+ * Событие по нажатию на область(кнопку) смена пароля
+ * Меняет пароль приложения
+ */
         findViewById(R.id.llChangePass).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +106,9 @@ public class PassActivity extends AppCompatActivity {
     }
 
     @Override
+    /**
+     * Метод, необходимый для возврата в предыдущее меню
+     */
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;

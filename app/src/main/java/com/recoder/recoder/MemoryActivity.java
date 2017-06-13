@@ -18,15 +18,25 @@ import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.Tools.FileWorker;
 
+/**
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс - активити для работы с памятью
+ */
 public class MemoryActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-
-
-    DBHelper dbHelper = new DBHelper(App.getContext());
-    SQLiteDatabase db = dbHelper.getWritableDatabase();
+    DBHelper dbHelper = new DBHelper(App.getContext());///<Необходим для работы с базой данных
+    SQLiteDatabase db = dbHelper.getWritableDatabase();///<Необходим для работы с базой данных
 
     @Override
+    /**
+     * Инициализация активити
+     * Получение объема памяти, занимаемого записанными разговорами
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory);
@@ -75,14 +85,12 @@ public class MemoryActivity extends AppCompatActivity {
                         .findViewById(R.id.dialog_input);
                 dialogQuestion.setText("Введите директорию для записи");
                 input.setText(PrefsHelper.readPrefString(App.getContext(), App.PREF_DIR_PATH));
-                // set dialog message
+
                 alertDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        // get user input and set it to result
-                                        // edit text
 
                                         PrefsHelper.writePrefString(App.getContext(), App.PREF_DIR_PATH, input.getText().toString());
 
@@ -97,14 +105,15 @@ public class MemoryActivity extends AppCompatActivity {
                                     }
                                 });
 
-                // create alert dialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
 
-                // show it
                 alertDialog.show();
             }
         });
-
+/**
+ * Событие по кнопке
+ * Удаление всех файлов
+ */
         findViewById(R.id.deleteNow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,12 +121,14 @@ public class MemoryActivity extends AppCompatActivity {
                 fileWorker.deleteAllFiles();
                 db.delete(dbHelper.TABLE_USED_WORDS, null, null);
                 db.delete(dbHelper.TABLE_RECORDS, null, null);
-                onRestart();
                 Toast.makeText(MemoryActivity.this, "Записи успешно удалены", Toast.LENGTH_SHORT).show();
             }
         });
 
-
+/**
+ * Событие по кнопке
+ * Удаление всех файлов после заданного количества дней
+ */
         findViewById(R.id.delete_after).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,14 +144,11 @@ public class MemoryActivity extends AppCompatActivity {
                         .findViewById(R.id.dialog_input);
                 dialogQuestion.setText("Введите число");
                 input.setText("");
-                // set dialog message
                 alertDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        // get user input and set it to result
-                                        // edit text
                                         try {
                                             PrefsHelper.writePrefInt(App.getContext(), App.PREF_AUTO_DELETE, Integer.parseInt(input.getText().toString()));
                                             Toast.makeText(MemoryActivity.this, "Изменения будут применены после перезапуска программы", Toast.LENGTH_SHORT).show();
@@ -156,10 +164,7 @@ public class MemoryActivity extends AppCompatActivity {
                                     }
                                 });
 
-                // create alert dialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
-
-                // show it
                 alertDialog.show();
             }
         });
@@ -167,6 +172,9 @@ public class MemoryActivity extends AppCompatActivity {
     }
 
     @Override
+    /**
+     * Метод, необходимый для возврата в предыдущее меню
+     */
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;

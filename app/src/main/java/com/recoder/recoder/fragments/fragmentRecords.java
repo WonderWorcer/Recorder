@@ -25,7 +25,12 @@ import com.recoder.recoder.models.record;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс необходимый для иницилизации фрагмента
  */
 public class fragmentRecords extends Fragment {
 
@@ -41,6 +46,9 @@ public class fragmentRecords extends Fragment {
 
 
     @Override
+    /**
+     * Инициализация фрагмента
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -79,7 +87,7 @@ public class fragmentRecords extends Fragment {
             int callDateColIndex = c.getColumnIndex(dbHelper.CALLDATE);
             int pathColIndex = c.getColumnIndex(dbHelper.RECORD_PATH);
             do {
-                // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmmss");
+
 
                 record item = new record();
                 if (c.getString(seedColIndex).equals("Исходящий")) {
@@ -92,7 +100,7 @@ public class fragmentRecords extends Fragment {
                 else
                     item.setNumber(c.getString(phoneNumberColIndex));
                 item.setTime(numberInformation.dateOfRecord(c.getString(callDateColIndex)));
-                //item.setPicture(numberInformation.retrieveContactPhoto(c.getString(phoneNumberColIndex)));
+
                 item.set_id(c.getInt(idColIndex));
                 item.setTime_call(c.getString(callTimeColIndex));
                 item.setPath(c.getString(pathColIndex));

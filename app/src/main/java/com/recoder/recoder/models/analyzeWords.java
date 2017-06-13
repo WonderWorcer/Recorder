@@ -4,13 +4,18 @@ import java.util.ArrayList;
 
 
 /**
- * Created by WonderWorcer on 29.04.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс, хранящий информацию о словах в записях
  */
 
 public class analyzeWords {
-    private String word;
-    private Integer frequency;
-    private ArrayList<recordMin> listOfRecords;
+    private String word; ///< Название слова
+    private Integer frequency;///<Частота встречи слова
+    private ArrayList<recordMin> listOfRecords;///<Список записей, в которых было найдено слово
 
 
 

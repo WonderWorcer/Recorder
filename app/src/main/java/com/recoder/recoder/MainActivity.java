@@ -2,8 +2,6 @@ package com.recoder.recoder;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 
-import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.Helper.FillBase;
 import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.Semaphore.ThreadsApp;
@@ -29,14 +26,31 @@ import com.recoder.recoder.fragments.fragmentWords;
 
 import java.util.Locale;
 
+/**
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Запускающий класс приложения, необходим для старта
+ * рекордера, семафора.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
 
     private DrawerLayout mDrawer;
     public NavigationView nvDrawer;
-    CallRecord callRecord;
-    FileWorker fileWorker;
+    CallRecord callRecord;///<Необходим для старта сервиса записи телефонных разговоров
+    FileWorker fileWorker;///<Необходим для удаления записи, при истечении срока хранения
     @Override
+    /**
+     * Метод, стартующий приложение
+     * Запускает запись звонков
+     * Запускает поток семафора, для анализа записей
+     * Удаляет записи по истечению срока хранения
+     * Запускает окно пароля, если такая функция включена пользователем.
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -59,60 +73,13 @@ public class MainActivity extends AppCompatActivity {
             PrefsHelper.writePrefBool(this, App.PREF_ISRECORDING, true);
         }
         PrefsHelper.writePrefBool(this, App.PREF_CHANGE_PASSWORD, false);
-        //PrefsHelper.writePrefInt(this, "PrefAutoDelete", 0);
-        //PrefsHelper.writePrefString(this, App.PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
+        PrefsHelper.writePrefString(this, App.PREF_API_KEY, "AIzaSyCvfglaj2kcmjzNY5kyItkBx5wsHXQm8Y4");
         App.setContext(this);
         fileWorker = new FileWorker();
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
         selectDrawerItem(nvDrawer.getMenu().getItem(0));
-        DBHelper dbHelper = new DBHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        Cursor cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID}, null, null, null, null, null);
-        PrefsHelper.writePrefInt(this, App.PREF_ALL_FILES, cursor.getCount());
-        cursor.close();
-
-        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
-                dbHelper.RECORD_STATUS + "= ?", new String[]{"Checked"}, null, null, null);
-        PrefsHelper.writePrefInt(this, App.PREF_ANALIZED_FILES, cursor.getCount());
-        cursor.close();
-
-        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
-                dbHelper.EXTREMIST_FILTER + "> ?", new String[]{"0"}, null, null, null);
-        PrefsHelper.writePrefInt(this, DBHelper.EXTREMIST_FILTER, cursor.getCount());
-        cursor.close();
-
-        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
-                dbHelper.DRAG_FILTER + "> ?", new String[]{"0"}, null, null, null);
-        PrefsHelper.writePrefInt(this, DBHelper.DRAG_FILTER, cursor.getCount());
-        cursor.close();
-
-        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
-                dbHelper.PROFANITY_FILTER + "> ?", new String[]{"0"}, null, null, null);
-        PrefsHelper.writePrefInt(this, DBHelper.PROFANITY_FILTER, cursor.getCount());
-        cursor.close();
-
-        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
-                dbHelper.STATE_SECRET_FILTER + "> ?", new String[]{"0"}, null, null, null);
-        PrefsHelper.writePrefInt(this, DBHelper.STATE_SECRET_FILTER, cursor.getCount());
-        cursor.close();
-
-        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
-                dbHelper.THEFT_FILTER + "> ?", new String[]{"0"}, null, null, null);
-        PrefsHelper.writePrefInt(this, DBHelper.THEFT_FILTER, cursor.getCount());
-        cursor.close();
-
-        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
-                dbHelper.BANK_SECRET_FILTER + "> ?", new String[]{"0"}, null, null, null);
-        PrefsHelper.writePrefInt(this, DBHelper.BANK_SECRET_FILTER, cursor.getCount());
-        cursor.close();
-
-        cursor = db.query(dbHelper.TABLE_RECORDS, new String[]{dbHelper.KEY_ID},
-                dbHelper.USER_DICTIONARY_FILTER + "> ?", new String[]{"0"}, null, null, null);
-        PrefsHelper.writePrefInt(this, DBHelper.USER_DICTIONARY_FILTER, cursor.getCount());
-        cursor.close();
 
 
         if (PrefsHelper.readPrefBool(this, App.PREF_AUTOFILLBASE)) {
@@ -124,10 +91,6 @@ public class MainActivity extends AppCompatActivity {
         if (PrefsHelper.readPrefInt(App.getContext(), App.PREF_AUTO_DELETE) > 0)
             fileWorker.deleteFilesAfterDateEnd(PrefsHelper.readPrefInt(App.getContext(), App.PREF_AUTO_DELETE));
 
-        //Необходимо для обновления базы
-        //DBHelper dbHelper = new DBHelper(this);
-        //SQLiteDatabase db = dbHelper.getWritableDatabase();
-        //dbHelper.onUpgrade(db,1,3);
 
         ThreadsApp threadsApp = new ThreadsApp();
         threadsApp.threadController();
@@ -140,11 +103,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Включение меню, задание расположения меню слева
+     */
     public void openDrawer() {
         mDrawer.openDrawer(Gravity.LEFT);
     }
 
-
+    /**
+     * @param navigationView
+     */
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -156,8 +124,11 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Выбор пункта меню и последующее открытие выбранного фрагмента
+     * @param menuItem - пункт меню
+     */
     public void selectDrawerItem(MenuItem menuItem) {
-        // Create a new fragmentRecords and specify the fragmentRecords to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass;
         switch (menuItem.getItemId()) {
@@ -173,9 +144,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_library_fragment:
                 fragmentClass = fragmentWords.class;
                 break;
-            //case R.id.nav_analyze_fragment:
-            //fragmentClass = fragmentAnalyzeWords.class;
-            //break;
             case R.id.nav_analyze_zap_fragment:
                 fragmentClass = fragmentAnalyzeRecords.class;
                 break;
@@ -190,15 +158,12 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-        // Insert the fragmentRecords by replacing any existing fragmentRecords
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         fragmentManager.beginTransaction()
                 .replace(R.id.fl_content, fragment)
                 .commit();
 
-        // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
 
         mDrawer.closeDrawers();
@@ -212,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawer.openDrawer(GravityCompat.START);

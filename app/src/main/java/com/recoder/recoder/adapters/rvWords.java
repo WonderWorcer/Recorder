@@ -27,7 +27,13 @@ import com.recoder.recoder.models.words;
 import java.util.ArrayList;
 
 /**
- * Created by WonderWorcer on 29.04.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс - адаптер, для вывода информации о
+ * пользовательских словах во фрагмент
  */
 
 public class rvWords extends RecyclerView.Adapter<rvWords.ViewHolder> {
@@ -59,24 +65,30 @@ public class rvWords extends RecyclerView.Adapter<rvWords.ViewHolder> {
         this.context = context;
     }
 
-    // Создает новые views (вызывается layout manager-ом)
+
     @Override
+    /**
+     * Создает новые views
+     */
     public rvWords.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                  int viewType) {
-        // create a new view
+
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.rv_word_item, parent, false);
 
         context = parent.getContext();
 
-        // тут можно программно менять атрибуты лэйаута (size, margins, paddings и др.)
+
 
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
-    // Заменяет контент отдельного view (вызывается layout manager-ом)
+
     @Override
+    /**
+     * Заменяет контент отдельного view
+     */
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.priority.setText(mDataset.get(position).getPriority().toString());
@@ -99,8 +111,14 @@ public class rvWords extends RecyclerView.Adapter<rvWords.ViewHolder> {
 
     }
 
+    /**
+     * Дополнительное меню для каждой записи
+     *
+     * @param view     - объект, к которому привязано меню
+     * @param position - позиция объекта меню
+     */
     private void showPopup(View view, final int position) {
-        // pass the imageview id
+
 
         final PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflate = popup.getMenuInflater();
@@ -118,7 +136,7 @@ public class rvWords extends RecyclerView.Adapter<rvWords.ViewHolder> {
 
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                                 context);
-                        // set prompts.xml to alertdialog builder
+
                         alertDialogBuilder.setView(promptsView);
 
                         final EditText inputWord = (EditText) promptsView
@@ -140,14 +158,12 @@ public class rvWords extends RecyclerView.Adapter<rvWords.ViewHolder> {
                         }
                         cursor.close();
 
-                        // set dialog message
                         alertDialogBuilder
                                 .setCancelable(false)
                                 .setPositiveButton("OK",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
-                                                // get user input and set it to result
-                                                // edit text
+
                                                 ContentValues contentValues = new ContentValues();
                                                 contentValues.put(dbHelper.KEY_WORD, inputWord.getText().toString());
                                                 if (Integer.parseInt(inputPrioritet.getText().toString()) > 10)
@@ -166,10 +182,8 @@ public class rvWords extends RecyclerView.Adapter<rvWords.ViewHolder> {
                                             }
                                         });
 
-                        // create alert dialog
                         AlertDialog alertDialog = alertDialogBuilder.create();
 
-                        // show it
                         alertDialog.show();
 
 
@@ -193,6 +207,9 @@ public class rvWords extends RecyclerView.Adapter<rvWords.ViewHolder> {
     }
 
     @Override
+    /**
+     * Метод, для получения количества записей в списке
+     */
     public int getItemCount() {
         return mDataset.size();
     }

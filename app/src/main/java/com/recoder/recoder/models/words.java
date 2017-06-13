@@ -1,14 +1,19 @@
 package com.recoder.recoder.models;
 
 /**
- * Created by WonderWorcer on 29.04.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс, хранящий информацию о словах
  */
 
 public class words {
-    private String word;
-    private Integer priority;
-    private String _id;
-    private String filterName;
+    private String word;///<Название слова
+    private Integer priority;///<Приоритет слова
+    private String _id; ///<Уникальный номер слова
+    private String filterName;///<Название фильтра, к которому принадлежит слово
     public String getWord() {
         return word;
     }
@@ -27,7 +32,6 @@ public class words {
 
     public String get_id() {
         return _id;
-
     }
 
     public void set_id(String _id) {

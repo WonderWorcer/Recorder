@@ -12,13 +12,19 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.recoder.recoder.App;
+import com.recoder.recoder.Facade.ReadFromDB;
 import com.recoder.recoder.Helper.DBHelper;
 import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.MainActivity;
 import com.recoder.recoder.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс необходимый для иницилизации фрагмента
  */
 public class fragmentMainPage extends Fragment {
     Toolbar toolbar;
@@ -28,11 +34,14 @@ public class fragmentMainPage extends Fragment {
             profanityFilter;
     Switch onOffRecord;
     public fragmentMainPage() {
-        // Required empty public constructor
+
     }
 
 
     @Override
+    /**
+     * Инициализация фрагмента
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -49,6 +58,9 @@ public class fragmentMainPage extends Fragment {
         theftFilter = (TextView) v.findViewById(R.id.theftFilter);
         profanityFilter = (TextView) v.findViewById(R.id.profanityFilter);
         onOffRecord = (Switch) v.findViewById(R.id.onOffRecord);
+
+        ReadFromDB readFromDB = new ReadFromDB();
+        readFromDB.generateMainPage();
 
         allFiles.setText(Integer.toString(PrefsHelper.readPrefInt(App.getContext(), App.PREF_ALL_FILES)));
         analizedFiles.setText(Integer.toString(PrefsHelper.readPrefInt(App.getContext(), App.PREF_ANALIZED_FILES)));
@@ -97,7 +109,6 @@ public class fragmentMainPage extends Fragment {
 
         });
 
-        // Inflate the layout for this fragment
         return v;
     }
 

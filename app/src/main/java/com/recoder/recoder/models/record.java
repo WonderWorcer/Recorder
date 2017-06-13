@@ -3,15 +3,19 @@ package com.recoder.recoder.models;
 
 import android.graphics.Bitmap;
 
-
 /**
- * Created by WonderWorcer on 29.04.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс, хранящий информацию о записях
  */
 public class record {
-    private Bitmap picture;
-    private String number;
-    private String time;
-    private String path;
+    private Bitmap picture;///<Картинка контакта
+    private String number;///<Номер телефона или имя контакта
+    private String time;///<Время вызова
+    private String path;///<Путь до файла
 
     public String getPath() {
         return path;

@@ -11,16 +11,27 @@ import com.recoder.recoder.Helper.PrefsHelper;
 import com.recoder.recoder.Tools.FileWorker;
 import com.recoder.recoder.view.PwdGestureView;
 
+/**
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс - активити для работы с паролем
+ */
 public class PasswordActivity extends AppCompatActivity {
-    PwdGestureView mPwdGestureView;
-    String firstPassword = "";
-    boolean isFirstPasswordEnter = false;
+    PwdGestureView mPwdGestureView;///<Окно пароля
+    String firstPassword = "";///<Первый введенный пароль
+    boolean isFirstPasswordEnter = false;///<Флаг ввода первого пароля
     TextView tv_pwd, tv_input_pwd;
     RadioGroup rg_RadioGroup;
-    DBHelper dbHelper = new DBHelper(App.getContext());
-    SQLiteDatabase db = dbHelper.getWritableDatabase();
-    int failedCount;
+    DBHelper dbHelper = new DBHelper(App.getContext());///<Необходим для работы с базой данных
+    SQLiteDatabase db = dbHelper.getWritableDatabase();///<Необходим для работы с базой данных
+    int failedCount;///<Количество неверных попыток ввода пароля
     @Override
+    /**
+     * Инициализация активити
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_acivity);
@@ -38,9 +49,14 @@ public class PasswordActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         tv_pwd.setText("Введите пароль");
-//        mPwdGestureView.setOldPwd("012543");
         mPwdGestureView.setIsDrawLine(true);
-
+/**
+ * Метод, работающий с вводом пароля
+ * Смена пароля
+ * Ввод пароля
+ * Включение пароля
+ * Удаление записей после 10 неверных попыток ввода пароля
+ */
         mPwdGestureView.startWork(new PwdGestureView.GetPwd() {
             @Override
             public void onGetPwd(String pwd) {

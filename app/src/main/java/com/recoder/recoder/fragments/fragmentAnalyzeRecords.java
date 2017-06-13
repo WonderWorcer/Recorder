@@ -25,7 +25,12 @@ import com.recoder.recoder.models.words;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс необходимый для иницилизации фрагмента
  */
 public class fragmentAnalyzeRecords extends Fragment {
 
@@ -37,6 +42,9 @@ public class fragmentAnalyzeRecords extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<analyzeRecords> list = new ArrayList<>();
     @Override
+    /**
+     * Инициализация фрагмента
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -76,7 +84,6 @@ public class fragmentAnalyzeRecords extends Fragment {
                 else
                     item.setName(c.getString(phoneNumberColIndex));
 
-                //item.setName(c.getString(phoneNumberColIndex));
 
                 Cursor cursor = db.query(dbHelper.TABLE_USED_WORDS,
                         new String[]{dbHelper.KEY_WORD, dbHelper.VALUE_WORD, dbHelper.FILTER_NAME},

@@ -16,7 +16,6 @@ import com.recoder.recoder.Helper.PrefsHelper;
  * \date 7 марта 2017 года
  *
  * Класс, реализующий сервис записи разговора
- * На данный момент не работает
  */
 public class CallRecordService extends Service {
 

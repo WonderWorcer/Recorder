@@ -2,7 +2,12 @@ package com.recoder.recoder.models;
 
 
 /**
- * Created by WonderWorcer on 29.04.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс, хранящий информацию о записях
  */
 public class recordMin {
     private String name;

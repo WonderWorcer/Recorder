@@ -28,7 +28,13 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Created by WonderWorcer on 29.04.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс - адаптер, для вывода информации о
+ * записях во фрагмент
  */
 
 public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
@@ -65,30 +71,35 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
         this.context = context;
     }
 
-    // Создает новые views (вызывается layout manager-ом)
+
     @Override
+    /**
+     * Создает новые views
+     */
     public rvRecords.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
-        // create a new view
+
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.rv_record_item, parent, false);
 
         context = parent.getContext();
 
-        // тут можно программно менять атрибуты лэйаута (size, margins, paddings и др.)
+
 
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
-    // Заменяет контент отдельного view (вызывается layout manager-ом)
+
     @Override
+    /**
+     * Заменяет контент отдельного view
+     */
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.number.setText(mDataset.get(position).getNumber());
         holder.time.setText(mDataset.get(position).getTime());
         holder.time_call.setText(mDataset.get(position).getTime_call());
-        //holder.profile_image.setImageBitmap(mDataset.get(position).getPicture());
 
         if (mDataset.get(position).ishod()) {
             holder.vhod.setVisibility(View.GONE);
@@ -123,8 +134,14 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
 
     }
 
+    /**
+     * Дополнительное меню для каждой записи
+     *
+     * @param view     - объект, к которому привязано меню
+     * @param position - позиция объекта меню
+     */
     private void showPopup(View view, final int position) {
-        // pass the imageview id
+
         final PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflate = popup.getMenuInflater();
         inflate.inflate(R.menu.rv_rec_item_menu, popup.getMenu());
@@ -155,6 +172,9 @@ public class rvRecords extends RecyclerView.Adapter<rvRecords.ViewHolder> {
     }
 
     @Override
+    /**
+     * Метод, для получения количества записей в списке
+     */
     public int getItemCount() {
         return mDataset.size();
     }

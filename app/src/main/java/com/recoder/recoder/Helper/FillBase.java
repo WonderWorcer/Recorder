@@ -61,6 +61,10 @@ public class FillBase {
         addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "во имя Аллаха", 8);
         addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "убей", 10);
         addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "убийство", 10);
+        addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "фсб", 6);
+        addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "мвд", 6);
+        addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "террорист", 10);
+        addWordOnBase(dbHelper.TABLE_EXTREMIST_WORDS, "акбар", 6);
     }
 
     /**
@@ -82,6 +86,8 @@ public class FillBase {
         addWordOnBase(dbHelper.TABLE_DRAG_WORDS, "кекс", 4);
         addWordOnBase(dbHelper.TABLE_DRAG_WORDS, "кокаин", 10);
         addWordOnBase(dbHelper.TABLE_DRAG_WORDS, "морфий", 6);
+        addWordOnBase(dbHelper.TABLE_DRAG_WORDS, "нацвай", 8);
+        addWordOnBase(dbHelper.TABLE_DRAG_WORDS, "насик", 5);
     }
 
     /**
@@ -91,6 +97,9 @@ public class FillBase {
 
         database.delete(dbHelper.TABLE_STATE_SECRET_WORDS, null, null);
         addWordOnBase(dbHelper.TABLE_STATE_SECRET_WORDS, "код ракеты", 7);
+        addWordOnBase(dbHelper.TABLE_STATE_SECRET_WORDS, "Штаб", 4);
+        addWordOnBase(dbHelper.TABLE_STATE_SECRET_WORDS, "Навальный", 7);
+        addWordOnBase(dbHelper.TABLE_STATE_SECRET_WORDS, "Навэльный", 7);
     }
 
     /**
@@ -106,6 +115,7 @@ public class FillBase {
         addWordOnBase(dbHelper.TABLE_THEFT_WORDS, "присво", 8);
         addWordOnBase(dbHelper.TABLE_THEFT_WORDS, "похищ", 8);
         addWordOnBase(dbHelper.TABLE_THEFT_WORDS, "кража", 8);
+        addWordOnBase(dbHelper.TABLE_THEFT_WORDS, "красть", 8);
 
     }
 
@@ -115,8 +125,10 @@ public class FillBase {
     public void FillProfanityWords() {
 
         database.delete(dbHelper.TABLE_PROFANITY_WORDS, null, null);
-        addWordOnBase(dbHelper.TABLE_PROFANITY_WORDS, "432543543543", 8);
-
+        addWordOnBase(dbHelper.TABLE_PROFANITY_WORDS, "мудак", 8);
+        addWordOnBase(dbHelper.TABLE_PROFANITY_WORDS, "редиска", 8);
+        addWordOnBase(dbHelper.TABLE_PROFANITY_WORDS, "антон", 8);
+        addWordOnBase(dbHelper.TABLE_PROFANITY_WORDS, "муха", 8);
     }
 
     /**
@@ -125,6 +137,7 @@ public class FillBase {
     public void FillBankSecretWords() {
 
         database.delete(dbHelper.TABLE_BANK_SECRET_WORDS, null, null);
-        addWordOnBase(dbHelper.TABLE_BANK_SECRET_WORDS, "4365464765", 8);
+        addWordOnBase(dbHelper.TABLE_BANK_SECRET_WORDS, "номер операции", 8);
+        addWordOnBase(dbHelper.TABLE_BANK_SECRET_WORDS, "пароль", 8);
     }
 }

@@ -1,15 +1,10 @@
 package com.recoder.recoder.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,12 +12,17 @@ import android.widget.Toast;
 import com.recoder.recoder.R;
 import com.recoder.recoder.models.analyzeWords;
 import com.recoder.recoder.models.recordMin;
-import com.recoder.recoder.models.words;
 
 import java.util.ArrayList;
 
 /**
- * Created by WonderWorcer on 29.04.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс - адаптер, для вывода информации о
+ * проанализированных словах во фрагмент
  */
 
 public class rvAnalyzeWords extends RecyclerView.Adapter<rvAnalyzeWords.ViewHolder> {
@@ -51,24 +51,29 @@ public class rvAnalyzeWords extends RecyclerView.Adapter<rvAnalyzeWords.ViewHold
         this.context = context;
     }
 
-    // Создает новые views (вызывается layout manager-ом)
+
     @Override
+    /**
+     * Создает новые views
+     */
     public rvAnalyzeWords.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                         int viewType) {
-        // create a new view
+
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.rv_analyze_word_item, parent, false);
 
         context = parent.getContext();
 
-        // тут можно программно менять атрибуты лэйаута (size, margins, paddings и др.)
 
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
-    // Заменяет контент отдельного view (вызывается layout manager-ом)
+
     @Override
+    /**
+     * Заменяет контент отдельного view
+     */
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.frequency.setText(mDataset.get(position).getFrequency().toString());
@@ -100,6 +105,9 @@ public class rvAnalyzeWords extends RecyclerView.Adapter<rvAnalyzeWords.ViewHold
 
 
     @Override
+    /**
+     * Метод, для получения количества записей в списке
+     */
     public int getItemCount() {
         return mDataset.size();
     }

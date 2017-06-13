@@ -28,7 +28,12 @@ import com.recoder.recoder.models.words;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс необходимый для иницилизации фрагмента
  */
 public class fragmentWords extends Fragment {
     private static final String TAG = fragmentWords.class.getSimpleName();
@@ -41,6 +46,9 @@ public class fragmentWords extends Fragment {
     private ArrayList<words> list = new ArrayList<>();
 
     @Override
+    /**
+     * Инициализация фрагмента
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -73,21 +81,20 @@ public class fragmentWords extends Fragment {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         App.getContext());
-// set prompts.xml to alertdialog builder
+
                 alertDialogBuilder.setView(promptsView);
 
                 final EditText inputWord = (EditText) promptsView
                         .findViewById(R.id.addword);
                 final EditText inputPrioritet = (EditText) promptsView
                         .findViewById(R.id.addprioritet);
-                // set dialog message
+
                 alertDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        // get user input and set it to result
-                                        // edit text
+
                                         ContentValues contentValues = new ContentValues();
                                         contentValues.put(dbHelper.KEY_WORD, inputWord.getText().toString());
                                         try {
@@ -97,14 +104,6 @@ public class fragmentWords extends Fragment {
                                                 contentValues.put(dbHelper.VALUE_WORD, Integer.parseInt(inputPrioritet.getText().toString()));
 
                                         database.insert(dbHelper.TABLE_USER_DICTIONARY_WORDS, null, contentValues);
-
-                                            //Fragment currentFragment = getFragmentManager().findFragmentByTag(TAG);
-                                            //FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
-                                            //fragTransaction.detach(currentFragment);
-                                            //fragTransaction.attach(currentFragment);
-                                            //fragTransaction.commit();
-
-
 
 
                                         } catch (NumberFormatException ex) {
@@ -119,10 +118,8 @@ public class fragmentWords extends Fragment {
                                     }
                                 });
 
-                // create alert dialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
 
-                // show it
                 alertDialog.show();
 
 

@@ -16,13 +16,18 @@ import com.recoder.recoder.models.words;
 import java.util.ArrayList;
 
 /**
- * Created by WonderWorcer on 29.04.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс - адаптер, для вывода информации о
+ * проанализированных записях во фрагмент
  */
-
 public class rvAnalyzeRecords extends RecyclerView.Adapter<rvAnalyzeRecords.ViewHolder> {
 
-    private ArrayList<analyzeRecords> mDataset;
-    private Context context;
+    private ArrayList<analyzeRecords> mDataset;///<Список объектов для анализа записей
+    private Context context;///<Контекст приложения
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,24 +50,29 @@ public class rvAnalyzeRecords extends RecyclerView.Adapter<rvAnalyzeRecords.View
         this.context = context;
     }
 
-    // Создает новые views (вызывается layout manager-ом)
+
     @Override
+    /**
+     * Создает новые views
+     */
     public rvAnalyzeRecords.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                           int viewType) {
-        // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.rv_analyze_word_item, parent, false);
 
         context = parent.getContext();
 
-        // тут можно программно менять атрибуты лэйаута (size, margins, paddings и др.)
+
 
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
-    // Заменяет контент отдельного view (вызывается layout manager-ом)
+
     @Override
+    /**
+     * Заменяет контент отдельного view
+     */
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
 
@@ -127,6 +137,9 @@ public class rvAnalyzeRecords extends RecyclerView.Adapter<rvAnalyzeRecords.View
 
 
     @Override
+    /**
+     * Метод, для получения количества записей в списке
+     */
     public int getItemCount() {
         return mDataset.size();
     }

@@ -10,20 +10,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.recoder.recoder.MainActivity;
 import com.recoder.recoder.R;
 import com.recoder.recoder.adapters.rvAnalyzeWords;
-import com.recoder.recoder.adapters.rvWords;
 import com.recoder.recoder.models.analyzeWords;
 import com.recoder.recoder.models.recordMin;
-import com.recoder.recoder.models.words;
 
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс необходимый для иницилизации фрагмента
  */
 public class fragmentAnalyzeWords extends Fragment {
 

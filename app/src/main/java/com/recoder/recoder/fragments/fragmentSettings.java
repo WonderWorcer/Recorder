@@ -23,7 +23,12 @@ import com.recoder.recoder.PassActivity;
 import com.recoder.recoder.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс необходимый для иницилизации фрагмента
  */
 public class fragmentSettings extends Fragment {
 
@@ -34,6 +39,9 @@ public class fragmentSettings extends Fragment {
     LinearLayout ll_activition;
 
     @Override
+    /**
+     * Инициализация фрагмента
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 

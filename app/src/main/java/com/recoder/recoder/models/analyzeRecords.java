@@ -4,13 +4,19 @@ import java.util.ArrayList;
 
 
 /**
- * Created by WonderWorcer on 29.04.2017.
+ * \brief Регистрация звонков.
+ * \author WonderWorcer
+ * \version 1.0
+ * \date 5 мая 2017
+ * <p>
+ * Класс, хранящий информацию о записях, подлежающих
+ * анализу и уже проанализированных
  */
 
 public class analyzeRecords {
-    private String name;
-    private Integer priority;
-    private ArrayList<words> listOfWords;
+    private String name;///<Имя контакта или номер телефона
+    private Integer priority;///<Взвешенный приоритет записи
+    private ArrayList<words> listOfWords;///<Список слов, содержащихся в записи
 
     public String getName() {
         return name;
